@@ -5,7 +5,6 @@ const app = express()
 app.use(express.json());
 
 app.get('/', (req, res)=>{
-    console.log("hello")
     fs.readFile('./db.json', 'utf-8', (err, data)=>{
         if(err){
             console.log(err)
