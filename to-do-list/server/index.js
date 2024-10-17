@@ -2,6 +2,7 @@ const express = require("express")
 const fs = require("fs")
 const app = express()
 const cors = require("cors")
+const { v4: uuidv4 } = require('uuid');
 
 app.use(express.json());
 app.use(cors())
@@ -12,21 +13,18 @@ app.get('/products', (req, res)=>{
             console.log(err)
         }else{
             const newData = JSON.parse(data)
-            res.send(newData)
+            res.send(newData.products)
         }
     })
 })
 
 app.post('/products', (req, res)=>{
-    console.log(req.body)
     fs.readFile('./db.json', 'utf-8', (err, data)=>{
         if(err){
             console.log(err)
         }else{
-            console.log(data)
             const newData = JSON.parse(data)
-            newData.products.push(req.body)
-            res.send(newData.products)
+            newData.products.push({...req.body, id:uuidv4()})
             fs.writeFile('./db.json', JSON.stringify(newData), (err)=>{
                 if(err){
                     console.log(err)

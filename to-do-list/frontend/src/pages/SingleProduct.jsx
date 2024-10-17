@@ -1,6 +1,17 @@
+import axios from 'axios'
 import React from 'react'
+import { NavLink } from 'react-router-dom'
 
-export default function SingleProduct({ ele }) {
+export default function SingleProduct({ ele, getData }) {
+    const HandleDelete = async (id) => {
+        try {
+            await axios.delete(`http://localhost:3535/products/${id}`);
+            getData()
+            alert("Your Product has been deleted.");
+        } catch (error) {
+            console.log(error);
+        }
+    }
     return (
         <div className="p-4 sm:p-6 md:p-8">
             <div className="h-48 bg-gray-200 flex items-center justify-center">
@@ -15,6 +26,19 @@ export default function SingleProduct({ ele }) {
             <h4 className="text-sm sm:text-base md:text-lg">
                 Price: {ele.price}$
             </h4>
+            <div className="p-4 flex justify-center gap-5">
+                <NavLink to={`/Edit/${ele.id}`}>
+                    <button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                        Edit
+                    </button>
+                </NavLink>
+                <button
+                    className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-700"
+                    onClick={() => HandleDelete(ele.id)}
+                >
+                    Delete
+                </button>
+            </div>
         </div>
     )
 }

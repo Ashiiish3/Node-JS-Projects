@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { useState } from 'react'
 
-export default function AddProduct() {
+export default function AddProduct({getData}) {
     const formObj = {
         image: "",
         title:"",
@@ -14,10 +14,11 @@ export default function AddProduct() {
 
     const submitForm = async (e) => {
         e.preventDefault()
-        console.log(formData)
         try {
-           await axios.post(`http://localhost:3535/addProduct`, formData)
+           await axios.post(`http://localhost:3535/products`, formData)
+           getData()
            alert("Data has been Added.")
+           setFormData(formObj)
         } catch (error) {
             console.log(error)
         }
