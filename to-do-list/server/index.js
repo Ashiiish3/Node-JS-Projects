@@ -1,20 +1,23 @@
 const express = require("express")
 const fs = require("fs")
 const app = express()
+const cors = require("cors")
 
 app.use(express.json());
+app.use(cors())
 
-app.get('/', (req, res)=>{
+app.get('/products', (req, res)=>{
     fs.readFile('./db.json', 'utf-8', (err, data)=>{
         if(err){
             console.log(err)
         }else{
-            res.send(data)
+            const newData = JSON.parse(data)
+            res.send(newData)
         }
     })
 })
 
-app.post('/addProduct', (req, res)=>{
+app.post('/products', (req, res)=>{
     console.log(req.body)
     fs.readFile('./db.json', 'utf-8', (err, data)=>{
         if(err){
@@ -35,7 +38,7 @@ app.post('/addProduct', (req, res)=>{
     })
 })
 
-app.put('/updateProduct/:id', (req, res)=>{
+app.put('/products/:id', (req, res)=>{
     const {id} = req.params
     fs.readFile('./db.json', 'utf-8', (err, data)=>{
         if(err){
@@ -59,16 +62,16 @@ app.put('/updateProduct/:id', (req, res)=>{
     })
 })
 
-app.delete('/deleteProduct/:id', (req, res)=>{
+app.delete('/products/:id', (req, res)=>{
     const {id} = req.params
     fs.readFile('./db.json', "utf-8", (err, data)=>{
         if(err){
             console.log(err)
         }else{
-            const newData = JSON.parse(data)
+            let newData = JSON.parse(data)
             const filterData = newData.products.filter((ele)=>ele.id != id)
-            console.log(filterData)
-            fs.writeFile('./db.json', JSON.stringify(filterData), (err)=>{
+            newData.products = filterData
+            fs.writeFile('./db.json', JSON.stringify(newData), (err)=>{
                 if(err){
                     console.log(err)
                 }else{
@@ -77,7 +80,6 @@ app.delete('/deleteProduct/:id', (req, res)=>{
             })
         }
     })
-    res.send("ok")
 })
 
 app.listen(3535, ()=>{
