@@ -18,6 +18,22 @@ app.get('/products', (req, res)=>{
     })
 })
 
+app.get('/products/:id', (req, res)=> {
+    const { id } = req.params;
+    fs.readFile('./db.json', 'utf-8', (err,data)=>{
+        if(err){
+            console.log(err)
+        }else{
+            const newData = JSON.parse(data)
+            newData.products.forEach(element => {
+                if(element.id==id){
+                    res.send(element)
+                }
+            })
+        }
+    })
+})
+
 app.post('/products', (req, res)=>{
     fs.readFile('./db.json', 'utf-8', (err, data)=>{
         if(err){
@@ -50,7 +66,7 @@ app.put('/products/:id', (req, res)=>{
                     if(err){
                         console.log(err)
                     }else{
-                        res.send("data updated.")
+                        res.send(newData.products)
                     }
                 })
             }else{
