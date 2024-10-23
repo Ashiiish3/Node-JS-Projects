@@ -1,6 +1,6 @@
 const express = require("express")
-const { connectToMongoose } = require("./models/book")
 const userRouter = require("./controllers/bookController")
+const connectToMongoose = require("./database")
 const app = express()
 app.use(express.json())
 
