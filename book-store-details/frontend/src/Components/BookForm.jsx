@@ -1,90 +1,110 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function BookForm() {
-  const {id} = useParams()
+  const navigate = useNavigate();
+  const { id } = useParams()
   console.log(id)
-  const updateData = () => {
-    console.log("updated")
-  }
-  const postData = async ({formData}) => {
-    console.log("postData")
+  const postData = async (values, action) => {
     try {
-      const res = await axios.post(`http://localhost:4000/product/books`, formData)
+      const res = await axios.post(`http://localhost:4000/product/books`, values)
       console.log(res)
+      toast.success("Data has been Added.");
+      action.resetForm()
     } catch (error) {
-      console.log(error)
+      toast.error("Something went wrong.")
     }
   }
-  
+  const updateBook = async (values, action) => {
+    try {
+      const res = await axios.put(`http://localhost:4000/product/books/${id}`, values)
+      console.log(res)
+      toast.success("Book has been updated.")
+      action.resetForm()
+    } catch (error) {
+      toast.error("Something went wrong.")
+      console.log("Something went wrong.")
+    }
+  }
   const FormObj = {
-    image: "",
-    title: "",
-    author: "",
-    price: "",
-    description: ""
+    Image: "",
+    Title: "",
+    Author: "",
+    Price: "",
+    Description: ""
   }
   const bookValidationSchema = Yup.object({
-    image: Yup.string().required("Image is Required."),
-    title: Yup.string().required("Title is Required."),
-    author: Yup.string().required("Author is Required."),
-    price: Yup.number().required("Price is Required."),
-    description: Yup.string()
+    Image: Yup.string().required("Image is Required."),
+    Title: Yup.string().required("Title is Required."),
+    Author: Yup.string().required("Author is Required."),
+    Price: Yup.number().required("Price is Required."),
+    Description: Yup.string()
   })
-  const { values, handleSubmit, handleChange, errors } = useFormik({
+  const { values, handleSubmit, handleChange, setValues, errors } = useFormik({
     initialValues: FormObj,
     validationSchema: bookValidationSchema,
-    onSubmit: id ? updateData : postData
+    onSubmit: id ? updateBook : postData
   })
-  // (formData, aciton) => {
-  //   console.log("form submitted.")
-  //   console.log(formData)
-  //   console.log(aciton)
-  //   aciton.resetForm()
-  // }
-  const { image, title, author, price, description } = values;
+  useEffect(() => {
+    if (id) {
+      const getBookWithId = async () => {
+        try {
+          const res = await axios.get(`http://localhost:4000/product/books/${id}`)
+          setValues(res.data)
+        } catch (error) {
+          toast.error("Something went wrong.")
+          console.log("Something went wrong.")
+        }
+      }
+      getBookWithId()
+    }
+  }, [id])
+  const { Image, Title, Author, Price, Description } = values;
   return (
     <div className="max-w-md mx-auto p-4 bg-white rounded-lg shadow-md mb-16">
-      <h1 className='text-3xl mb-5 font-semibold'>Add Product</h1>
+      <h1 className='text-3xl mb-5 font-semibold'>{id ? "Update Product" : "Add Product"}</h1>
       <form className="space-y-4" onSubmit={handleSubmit}>
         <input
           type="text"
           placeholder="Image URL"
-          name="image"
-          value={image}
+          name="Image"
+          value={Image}
           onChange={handleChange}
           className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500"
         />
         <input
           type="text"
           placeholder="Title"
-          name="title"
-          value={title}
+          name="Title"
+          value={Title}
           onChange={handleChange}
           className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500"
         />
-        <input type='text' placeholder='Author Name' name='author' value={author} onChange={handleChange} className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500" />
+        <input type='text' placeholder='Author Name' name='Author' value={Author} onChange={handleChange} className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500" />
         <input
           type="text"
           placeholder="Price"
-          name="price"
-          value={price}
+          name="Price"
+          value={Price}
           onChange={handleChange}
           className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500"
         />
         <input
           type="text"
           placeholder="Description"
-          name="description"
-          value={description}
+          name="Description"
+          value={Description}
           onChange={handleChange}
           className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500"
         />
-        <button className="w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition" >Add Product</button>
+        <button className="w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition" type='submit'>{id ? "Update Book" : "Add Book"}</button>
       </form>
+      <ToastContainer />
     </div>
   )
 }
