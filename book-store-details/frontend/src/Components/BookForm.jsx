@@ -1,19 +1,16 @@
 import React, { useEffect } from 'react'
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function BookForm() {
-  const navigate = useNavigate();
   const { id } = useParams()
-  console.log(id)
   const postData = async (values, action) => {
     try {
       const res = await axios.post(`http://localhost:4000/product/books`, values)
-      console.log(res)
       toast.success("Data has been Added.");
       action.resetForm()
     } catch (error) {
@@ -23,12 +20,10 @@ export default function BookForm() {
   const updateBook = async (values, action) => {
     try {
       const res = await axios.put(`http://localhost:4000/product/books/${id}`, values)
-      console.log(res)
       toast.success("Book has been updated.")
       action.resetForm()
     } catch (error) {
       toast.error("Something went wrong.")
-      console.log("Something went wrong.")
     }
   }
   const FormObj = {
@@ -58,7 +53,6 @@ export default function BookForm() {
           setValues(res.data)
         } catch (error) {
           toast.error("Something went wrong.")
-          console.log("Something went wrong.")
         }
       }
       getBookWithId()
