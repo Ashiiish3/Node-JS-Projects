@@ -7,6 +7,7 @@ const multerRouter = require("./routes/multer.route")
 const app = express()
 app.use(cors())
 app.use(express.json())
+app.use(express.static("./UploadImages"))
 
 app.use("/photo", multerRouter)
 
