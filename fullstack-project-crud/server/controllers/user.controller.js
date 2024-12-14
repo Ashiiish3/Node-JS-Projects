@@ -18,11 +18,11 @@ const userSignUp = async (req, res) => {
             if (err) {
                 res.status(500).send({ message: "Error in hasing Password." })
             }
-            await userModel.create({ name, email, hash })
+            await userModel.create({ name, email, password: hash })
             res.status(200).send({ message: "Account has been created." })
         });
     } catch (error) {
-        res.status(400).send({ message: error })
+        res.status(400).send({ message: "Error creating Sing Up", error })
     }
 }
 
