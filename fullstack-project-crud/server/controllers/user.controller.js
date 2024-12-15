@@ -38,17 +38,18 @@ const userSignIn = async (req, res) => {
         if (!isUserExist) {
             return res.status(400).send({ message: "Please Sign up first." })
         }
-        bcrypt.compare(password, isUserExist.password, function(err, result) {
+        bcrypt.compare(password, isUserExist.password, (err, result) => {
             if(err){
                 res.status(500).json({message: "Error is comparing Password."})
             }
             if(result){
                 // creating token
-                const token = jwt.sign({userId: isUserExist._id}, process.env.SecretKey )
-                res.status(200).json({message: "Login Successfully."})
+                const token = jwt.sign({userId: isUserExist._id}, process.env.SecretKey, { expiresIn: "24h"} )
+                console.log(token)
+                res.cookie("AccessToken",token).status(200).json({message: "Login Successfully."})
             }
         });
-        res.status(200).send({message: "Login Successfully."})
+        // res.status(200).send({message: "Password is incorrect."})
     } catch (error) {
         res.status(400).send({ message: "Error creating Sing Up", error })
     }

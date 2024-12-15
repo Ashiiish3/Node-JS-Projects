@@ -6,6 +6,6 @@ const userRouter = express.Router()
 // Sing Up Router
 userRouter.post("/signup", userSignUp)
 // Sign In Router
-userRouter.post("/singin", userSignIn)
+userRouter.post("/signin", userSignIn)
 
 module.exports = userRouter
