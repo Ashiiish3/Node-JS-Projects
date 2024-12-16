@@ -1,7 +1,6 @@
 const userModel = require("../models/user.model");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-require('dotenv').config()
 
 const userSignUp = async (req, res) => {
     const { name, email, password } = req.body;
@@ -39,17 +38,22 @@ const userSignIn = async (req, res) => {
             return res.status(404).send({ message: "Please Sign up first." })
         }
         bcrypt.compare(password, isUserExist.password, (err, result) => {
-            if(err){
-                res.status(500).json({message: "Error is comparing Password."})
+            if (err) {
+                res.status(500).json({ message: "Error is comparing Password." })
             }
-            if(!result){
-                return res.status(401).send({message: "Password is incorrect."})
-            }
-            if(result){
+            if (result) {
                 // Creating token
-                const token = jwt.sign({userId: isUserExist._id}, process.env.SecretKey, { expiresIn: "2 days"} )
-                console.log(token)
-                res.cookie("AccessToken",token).status(200).json({message: "Login Successfully."})
+                const { password, ...rest } = isUserExist._doc
+                jwt.sign({ userData: rest }, process.env.SecretKey, { expiresIn: "2 days" }, (err, token) => {
+                    if (err) {
+                        return res.status(400).json({ message: "Error while creating token." })
+                    }
+                    if (token) {
+                        res.cookie("AccessToken", token).status(200).json({ message: "Login Successfully.", userData: rest })
+                    }
+                })
+            } else {
+                return res.status(401).send({ message: "Password is incorrect." })
             }
         });
     } catch (error) {
