@@ -15,8 +15,8 @@ const notesCreate = async (req, res) => {
 // Deleting notes
 const notesDelete = async (req, res) => {
     const { notesId } = req.params
-    const isNoteExist = await notesModel.findById(notesId)
     try {
+        const isNoteExist = await notesModel.findById(notesId)
         if (!isNoteExist) {
             return res.status(400).json({ message: "Notes not Exist." })
         }
@@ -48,6 +48,17 @@ const getAllNotes = async (req, res) => {
 // Gets notes by id of user
 const getSingleNote = async (req, res) => {
     const { noteId } = req.params
-
+    try {
+        const isNoteExist = await notesModel.findById(noteId)
+        if (!isNoteExist) {
+            return res.status(400).json({ message: "Notes not Exist." })
+        }
+        if (isNoteExist.userId != req.user._id) {
+            return res.status(400).json({ message: "You don't have permission to get this Note." })
+        }
+        res.status(200).json({ isNoteExist })
+    } catch (error) {
+        res.status(400).json({ message: error })
+    }
 }
 module.exports = { notesCreate, notesDelete, getAllNotes, getSingleNote }
