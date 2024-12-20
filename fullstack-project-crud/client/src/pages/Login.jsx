@@ -2,7 +2,8 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
-export default function SignIn() {
+
+export function Login() {
     const [email, setemail] = useState("");
     const [password, setpassword] = useState("");
     const navigate = useNavigate();
@@ -28,7 +29,6 @@ export default function SignIn() {
                     <h2 className="font-weight-bold text-dark">Sign In</h2>
                     <p className="text-muted">Access your account</p>
                 </div>
-
                 {/* Right Section (Form) */}
                 <div className="w-100">
                     <form className="d-flex flex-column gap-3" onSubmit={handlesubmit}>
@@ -46,7 +46,6 @@ export default function SignIn() {
                                 placeholder="name@company.com"
                             />
                         </div>
-
                         {/* Password Input */}
                         <div className="form-group">
                             <label htmlFor="password" className="form-label">
@@ -61,13 +60,11 @@ export default function SignIn() {
                                 placeholder="**********"
                             />
                         </div>
-
                         {/* Submit Button */}
                         <button type="submit" className="btn btn-primary w-100">
                             Sign In
                         </button>
                     </form>
-
                     {/* Sign-Up Link */}
                     <div className="text-center small mt-3">
                         <span>Don't have an account? </span>

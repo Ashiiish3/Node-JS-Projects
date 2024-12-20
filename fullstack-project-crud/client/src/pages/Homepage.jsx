@@ -1,8 +1,8 @@
 import React from 'react'
 
-const Homepage = () => {
+export const Homepage = () => {
     return (
-        <div class="py-md-32 position-relative">
+        <div class="py-md-32 position-relative" style={{minHeight: "100vh"}}>
             <div class="container-lg max-w-screen-xl">
                 <div class="row align-items-center">
                     <div class="col-lg-6 order-lg-1 ms-auto d-none d-lg-block">
@@ -73,5 +73,3 @@ const Homepage = () => {
         </div>
     )
 }
-
-export default Homepage

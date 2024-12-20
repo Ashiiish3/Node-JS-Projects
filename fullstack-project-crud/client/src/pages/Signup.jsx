@@ -3,7 +3,8 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
-export default function SignUp() {
+
+export function SignUp() {
     const [name, setname] = useState("");
     const [email, setemail] = useState("");
     const [password, setpassword] = useState("");
@@ -11,8 +12,7 @@ export default function SignUp() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        //logic
-
+        axios.post(`http://localhost:4000/user/signup`, { name, email, password }).then((res) => toast.success(res.data.message)).catch((err) => toast.error(err.response.data.message))
     };
 
     return (
