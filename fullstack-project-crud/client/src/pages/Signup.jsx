@@ -9,10 +9,9 @@ export function SignUp() {
     const [email, setemail] = useState("");
     const [password, setpassword] = useState("");
     const navigate = useNavigate();
-
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post(`http://localhost:4000/user/signup`, { name, email, password }).then((res) => toast.success(res.data.message)).catch((err) => toast.error(err.response.data.message))
+        axios.post(`${process.env.REACT_APP_URL}/user/signup`, { name, email, password }).then((res) => toast.success(res.data.message)).catch((err) => toast.error(err.response.data.message))
     };
 
     return (

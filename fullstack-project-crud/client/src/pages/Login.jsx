@@ -8,7 +8,8 @@ export function Login() {
     const [password, setpassword] = useState("");
     const navigate = useNavigate();
     const handlesubmit = (e) => {
-
+        e.preventDefault()
+        axios.post(`${process.env.REACT_APP_URL}/user/signin`, {email, password}).then((res)=>console.log(res)).catch((err)=>console.log(err))
     };
     return (
         <div
