@@ -64,8 +64,27 @@ const getSingleNote = async (req, res) => {
 // update notes
 const updateNotes = async (req, res) => {
     const { title, content, notesImage } = req.body
+    const { noteId } = req.params
     try {
-        
+        const updatedNoteData = {
+            title,
+            content,
+            notesImage: req?.file?.originalname
+        }
+        const isNoteExist = await notesModel.findById(noteId)
+        if (!isNoteExist) {
+            return res.status(400).json({ message: "Notes not Exist." })
+        }
+        if (isNoteExist.userId != req.user._id) {
+            return res.status(400).json({ message: "You don't have permission to get this Note." })
+        }
+        if (req.file) {
+            const updatedNote = await notesModel.findByIdAndUpdate(noteId, updatedNoteData, { new: true })
+            res.status(200).json({ message: "Note has been updated.", Note: updatedNote })
+        } else {
+            const updatedNote = await notesModel.findByIdAndUpdate(noteId, { ...req.body }, { new: true })
+            res.status(200).json({ message: "Note has been updated.", Note: updatedNote })
+        }
     } catch (error) {
         res.status(400).json({ message: error })
     }

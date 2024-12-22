@@ -9,5 +9,5 @@ notesRouter.post("/create", isAuth, notesCreate)
 notesRouter.delete("/delete/:notesId", isAuth, notesDelete)
 notesRouter.get("/getAllNotes/:userId", isAuth, getAllNotes)
 notesRouter.get("/getSingleNote/:noteId", isAuth, getSingleNote)
-notesRouter.patch("/updateNotes:noteId", isAuth, upload.single("file"), updateNotes)
+notesRouter.patch("/updateNotes/:noteId", isAuth, upload.single("file"), updateNotes)
 module.exports = notesRouter;

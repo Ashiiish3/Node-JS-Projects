@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { AiOutlineSearch } from "react-icons/ai";
+import { FaPlus } from "react-icons/fa6";
 
 export default function Navbar() {
   return (
@@ -12,7 +12,9 @@ export default function Navbar() {
         <Link to="/notes" className="navbar-brand font-weight-bold">
           Notes
         </Link>
-
+        <Link to={"/create"} className="navbar-brand font-weight-bold" >
+          <FaPlus />
+        </Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -33,7 +35,7 @@ export default function Navbar() {
               placeholder="Search..."
               aria-label="Search"
             />
-           
+
           </div>
 
           <ul className="navbar-nav ms-auto align-items-center gap-2">
