@@ -9,7 +9,10 @@ export function Login() {
     const navigate = useNavigate();
     const handlesubmit = (e) => {
         e.preventDefault()
-        axios.post(`${process.env.REACT_APP_URL}/user/signin`, {email, password}).then((res)=>console.log(res)).catch((err)=>console.log(err))
+        axios.post(`${process.env.REACT_APP_URL}/user/signin`, {email, password}, {withCredentials: true}).then((res)=>{
+            navigate('/')
+            toast.success(res.data.message || "Login Successfully.")
+        }).catch((err)=>toast.error(err.response.data.message || "Something went wrong."))
     };
     return (
         <div

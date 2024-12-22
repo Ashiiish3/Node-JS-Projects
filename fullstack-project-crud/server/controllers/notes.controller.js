@@ -61,4 +61,13 @@ const getSingleNote = async (req, res) => {
         res.status(400).json({ message: error })
     }
 }
-module.exports = { notesCreate, notesDelete, getAllNotes, getSingleNote }
+// update notes
+const updateNotes = async (req, res) => {
+    const { title, content, notesImage } = req.body
+    try {
+        
+    } catch (error) {
+        res.status(400).json({ message: error })
+    }
+}
+module.exports = { notesCreate, notesDelete, getAllNotes, getSingleNote, updateNotes }
