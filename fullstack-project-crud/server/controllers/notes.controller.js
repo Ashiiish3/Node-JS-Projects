@@ -89,4 +89,26 @@ const updateNotes = async (req, res) => {
         res.status(400).json({ message: error })
     }
 }
-module.exports = { notesCreate, notesDelete, getAllNotes, getSingleNote, updateNotes }
+// Admin
+// getting all notes by Admin
+const getAllNotesByAdmin = async (req, res) => {
+    try {
+        const AllNotes = await notesModel.find()
+        if (!AllNotes.length > 0) {
+            return res.status(400).json({ message: "Notes not exist." })
+        }
+        res.status(200).json({ message: "Notes get Successfully.", AllNotes })
+    } catch (error) {
+        res.status(400).json({ message: error })
+    }
+}
+// delete notes by Admin
+const deleteNotesbyAdmin = async (req, res) => {
+    try {
+        await notesModel.deleteMany({})
+        res.status(200).json({message: "All Notes have been Deleted."})
+    } catch (error) {
+        res.status(400).json({ message: error })
+    }
+}
+module.exports = { notesCreate, notesDelete, getAllNotes, getSingleNote, updateNotes, getAllNotesByAdmin, deleteNotesbyAdmin }
