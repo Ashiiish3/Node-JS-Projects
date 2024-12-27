@@ -3,15 +3,21 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useUserSignUpMutation } from "../features/AllAPI/UserApi";
 
 export function SignUp() {
     const [name, setname] = useState("");
     const [email, setemail] = useState("");
     const [password, setpassword] = useState("");
     const navigate = useNavigate();
-    const handleSubmit = (e) => {
+    const [userSignUp, userResult] = useUserSignUpMutation()
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        axios.post(`${process.env.REACT_APP_URL}/user/signup`, { name, email, password }).then((res) => toast.success(res.data.message)).catch((err) => toast.error(err.response.data.message))
+        // axios.post(`${process.env.REACT_APP_URL}/user/signup`, { name, email, password }).then((res) => toast.success(res.data.message)).catch((err) => toast.error(err.response.data.message))
+        console.log("helo")
+        await userSignUp({ name, email, password })
+        console.log(userSignUp)
+        console.log(userResult)
     };
 
     return (
