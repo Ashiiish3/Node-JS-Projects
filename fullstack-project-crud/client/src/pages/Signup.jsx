@@ -1,25 +1,25 @@
-import { Alert, Button, Spinner } from "react-bootstrap";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useUserSignUpMutation } from "../features/AllAPI/UserApi";
 
 export function SignUp() {
+    const [userSignUp] = useUserSignUpMutation()
     const [name, setname] = useState("");
     const [email, setemail] = useState("");
     const [password, setpassword] = useState("");
-    const navigate = useNavigate();
-    const [userSignUp, userResult] = useUserSignUpMutation()
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // axios.post(`${process.env.REACT_APP_URL}/user/signup`, { name, email, password }).then((res) => toast.success(res.data.message)).catch((err) => toast.error(err.response.data.message))
-        console.log("helo")
-        await userSignUp({ name, email, password })
-        console.log(userSignUp)
-        console.log(userResult)
+        try {
+            const res = await userSignUp({ name, email, password }).unwrap();
+            toast.success(res.message || "Sign up successful!");
+            setname("")
+            setemail("")
+            setpassword("")
+        } catch (error) {
+            toast.error(error.data?.message || "Something went wrong!");
+        }
     };
-
     return (
         <section style={{ backgroundColor: "#eee", minHeight: "100vh" }}>
             <div className="container py-3">

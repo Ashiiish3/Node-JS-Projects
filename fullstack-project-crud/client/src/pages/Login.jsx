@@ -1,18 +1,22 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { toast } from "react-toastify";
+import { useUserSignInMutation } from "../features/AllAPI/UserApi";
 
 export function Login() {
+    const [userSignIn] = useUserSignInMutation()
     const [email, setemail] = useState("");
     const [password, setpassword] = useState("");
     const navigate = useNavigate();
-    const handlesubmit = (e) => {
+    const handlesubmit = async (e) => {
         e.preventDefault()
-        axios.post(`${process.env.REACT_APP_URL}/user/signin`, {email, password}, {withCredentials: true}).then((res)=>{
+        try {
+            const res = await userSignIn({ email, password }).unwrap()
             navigate('/')
-            toast.success(res.data.message || "Login Successfully.")
-        }).catch((err)=>toast.error(err.response.data.message || "Something went wrong."))
+            toast.success(res.message || "Login Successfully.")
+        } catch (error) {
+            toast.error(error.data?.message || "Something went wrong!");
+        }
     };
     return (
         <div

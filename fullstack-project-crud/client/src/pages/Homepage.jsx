@@ -2,13 +2,13 @@ import React from 'react'
 
 export const Homepage = () => {
     return (
-        <div class="py-md-32 position-relative" style={{minHeight: "100vh"}}>
-            <div class="container-lg max-w-screen-xl">
-                <div class="row align-items-center">
-                    <div class="col-lg-6 order-lg-1 ms-auto d-none d-lg-block">
-                        <div class="mb-5 mb-lg-0 w-11/10 position-relative">
+        <div className="py-md-32 position-relative" style={{minHeight: "100vh"}}>
+            <div className="container-lg max-w-screen-xl">
+                <div className="row align-items-center">
+                    <div className="col-lg-6 order-lg-1 ms-auto d-none d-lg-block">
+                        <div className="mb-5 mb-lg-0 w-11/10 position-relative">
                             {/* <!-- Illustration --> */}
-                            <div class="svg-fluid position-relative overlap-10">
+                            <div className="svg-fluid position-relative overlap-10">
                                 <svg id="ab47acfe-844d-4101-aa7b-df38aa50dbe4" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="971.0518" height="628.38145" viewBox="0 0 971.0518 628.38145">
                                     <path d="M847.93141,636.215h0a249.62642,249.62642,0,0,1-2.09461-54.11121l2.09461-29.88879h0c-11.54175,22.96552-8.93335,53.1922,0,83.99994Z" transform="translate(-114.4741 -135.80928)" fill="#cacaca" />
                                     <path d="M856.93141,641.215h0a183.49726,183.49726,0,0,1-1.00781-32.209l1.00781-17.791h0C851.37831,604.885,852.63331,622.877,856.93141,641.215Z" transform="translate(-114.4741 -135.80928)" fill="#cacaca" />
@@ -42,28 +42,28 @@ export const Homepage = () => {
                                 </svg>
                             </div>
                             {/* <!-- Decorations --> */}
-                            <div class="position-absolute bottom-0 start-72 h-64 w-64 mt-n4 transform translate-y-n1/2 translate-x-n1/2 gradient-bottom-right start-purple-400 end-cyan-500 filter blur-100 rounded-4 p-5"> </div>
+                            <div className="position-absolute bottom-0 start-72 h-64 w-64 mt-n4 transform translate-y-n1/2 translate-x-n1/2 gradient-bottom-right start-purple-400 end-cyan-500 filter blur-100 rounded-4 p-5"> </div>
                         </div>
                     </div>
-                    <div class="col-lg-6 order-md-0">
+                    <div className="col-lg-6 order-md-0">
                         {/* <!-- Surtitle --> */}
-                        <h5 class="h5 mb-5 text-uppercase text-warning mb-5">
+                        <h5 className="h5 mb-5 text-uppercase text-warning mb-5">
                             Welcome to Our Blog
                         </h5>
                         {/* <!-- Heading --> */}
-                        <h1 class="ls-tight font-bolder display-3 mb-5">
+                        <h1 className="ls-tight font-bolder display-3 mb-5">
                             Dive into the latest stories, trends, and tips from industry experts.
                         </h1>
                         {/* <!-- Text --> */}
-                        <p class="lead mb-10">
+                        <p className="lead mb-10">
                             Accelerate your development while remaining consistent.
                         </p>
                         {/* <!-- Buttons --> */}
-                        <div class="mx-n2">
-                            <a href="#" class="btn btn-lg btn-primary shadow-sm mx-2 px-lg-8">
+                        <div className="mx-n2">
+                            <a href="#" className="btn btn-lg btn-primary shadow-sm mx-2 px-lg-8">
                                 Get started
                             </a>
-                            <a href="#" class="btn btn-lg btn-neutral mx-2 px-lg-8">
+                            <a href="#" className="btn btn-lg btn-neutral mx-2 px-lg-8">
                                 Learn more
                             </a>
                         </div>
