@@ -4,20 +4,20 @@ import { toast } from "react-toastify";
 import { useUserSignUpMutation } from "../features/AllAPI/UserApi";
 
 export function SignUp() {
-    const [userSignUp] = useUserSignUpMutation()
     const [name, setname] = useState("");
     const [email, setemail] = useState("");
     const [password, setpassword] = useState("");
+    const [userSignUp, { isLoading, error, isError, isSuccess, data }] = useUserSignUpMutation()
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const res = await userSignUp({ name, email, password }).unwrap();
-            toast.success(res.message || "Sign up successful!");
+            toast.success(res?.message || "Sign up successful!");
             setname("")
             setemail("")
             setpassword("")
         } catch (error) {
-            toast.error(error.data?.message || "Something went wrong!");
+            toast.error(error?.data?.message || "Something went wrong!");
         }
     };
     return (

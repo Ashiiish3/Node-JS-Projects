@@ -4,18 +4,18 @@ import { toast } from "react-toastify";
 import { useUserSignInMutation } from "../features/AllAPI/UserApi";
 
 export function Login() {
-    const [userSignIn] = useUserSignInMutation()
     const [email, setemail] = useState("");
     const [password, setpassword] = useState("");
     const navigate = useNavigate();
+    const [userSignIn, { isLoading, error, isError, isSuccess, data }] = useUserSignInMutation()
     const handlesubmit = async (e) => {
         e.preventDefault()
         try {
             const res = await userSignIn({ email, password }).unwrap()
             navigate('/')
-            toast.success(res.message || "Login Successfully.")
+            toast.success(res?.message || "Login Successfully.")
         } catch (error) {
-            toast.error(error.data?.message || "Something went wrong!");
+            toast.error(error?.data?.message || "Something went wrong!");
         }
     };
     return (
