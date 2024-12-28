@@ -1,6 +1,9 @@
 import React from 'react'
+import { useGetAllNoteQuery } from '../features/AllAPI/NoteApi'
 
 export default function Notes() {
+  // const [getAllNote, { isLoading, isError, isSuccess, data }] = useGetAllNoteQuery()
+  console.log(useGetAllNoteQuery)
   return (
     <div style={{minHeight: "100vh"}} className='d-flex flex-column flex-md-row'>
       <div className='w-100'>

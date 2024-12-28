@@ -6,7 +6,7 @@ const isAdmin = require("../middleware/Admin");
 
 const notesRouter = express.Router()
 
-notesRouter.post("/create", isAuth, notesCreate)
+notesRouter.post("/create", isAuth, upload.single("file"), notesCreate)
 notesRouter.delete("/delete/:notesId", isAuth, notesDelete)
 notesRouter.get("/getAllNotes/:userId", isAuth, getAllNotes)
 notesRouter.get("/getSingleNote/:noteId", isAuth, getSingleNote)

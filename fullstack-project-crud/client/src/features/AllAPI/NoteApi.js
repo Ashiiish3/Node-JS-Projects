@@ -1,15 +1,15 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-const baseUrl = `${process.env.REACT_APP_URL}/note`
+const baseUrl = `${process.env.REACT_APP_URL}/note`;
 export const notesAPI = createApi({
     reducerPath: "notesAPI",
     baseQuery: fetchBaseQuery({ baseUrl: baseUrl, credentials: "include" }),
     endpoints: (builder) => ({
         createNote: builder.mutation({
-            query: (newpost) => ({
+            query: (data) => ({
                 url: "/create",
                 method: "POST",
-                body: newpost
+                body: data
             })
         }),
         deleteNote: builder.mutation({
@@ -38,4 +38,4 @@ export const notesAPI = createApi({
     })
 })
 
-export const { useCreateNoteMutation, usedeleteNoteMutation, useGetAllNoteQuery, useGetSingleNoteQuery, useUpdateNoteMutation } = notesAPI;
+export const { useCreateNoteMutation, useDeleteNoteMutation, useGetAllNoteQuery, useGetSingleNoteQuery, useUpdateNoteMutation } = notesAPI;
