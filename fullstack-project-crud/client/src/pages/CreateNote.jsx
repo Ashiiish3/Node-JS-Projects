@@ -34,11 +34,11 @@ export default function CreateNote() {
         <Form className="p-4 border rounded bg-light" onSubmit={HandleSubmit}>
           <h5 className="text-center mb-4">Make New Note</h5>
           <Form.Group className="mb-3">
-            <Form.Label>Title</Form.Label>
+            <Form.Label>Title:</Form.Label>
             <Form.Control type="text" placeholder="Enter title" onChange={(e) => setTitle(e.target.value)} />
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>Content</Form.Label>
+            <Form.Label>Content:</Form.Label>
             <Form.Control type="text" placeholder="Enter content" onChange={(e) => setContent(e.target.value)} />
           </Form.Group>
           <Form.Group className="mb-3">

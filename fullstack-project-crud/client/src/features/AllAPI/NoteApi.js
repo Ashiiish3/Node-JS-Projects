@@ -16,13 +16,15 @@ export const notesAPI = createApi({
             query: (noteId) => ({
                 url: `/delete/${noteId}`,
                 method: "DELETE"
-            })
+            }),
+            invalidatesTags: ['Notes']
         }),
         getAllNote: builder.query({
             query: (userId) => ({
                 url: `/getAllNotes/${userId}`,
                 method: "GET"
-            })
+            }),
+            providesTags: ['Notes'],
         }),
         getSingleNote: builder.query({
             query: (noteId) => ({
@@ -35,7 +37,8 @@ export const notesAPI = createApi({
                 url: `updateNotes/${noteId}`,
                 method: "PATCH",
                 body: data
-            })
+            }),
+            invalidatesTags: ['Notes'],
         })
     })
 })
