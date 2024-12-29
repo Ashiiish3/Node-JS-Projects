@@ -6,11 +6,11 @@ const isAdmin = require("../middleware/Admin");
 
 const notesRouter = express.Router()
 
-notesRouter.post("/create", isAuth, upload.single("file"), notesCreate)
+notesRouter.post("/create", isAuth, upload.single("notesImage"), notesCreate)
 notesRouter.delete("/delete/:notesId", isAuth, notesDelete)
 notesRouter.get("/getAllNotes/:userId", isAuth, getAllNotes)
 notesRouter.get("/getSingleNote/:noteId", isAuth, getSingleNote)
-notesRouter.patch("/updateNotes/:noteId", isAuth, upload.single("file"), updateNotes)
+notesRouter.patch("/updateNotes/:noteId", isAuth, upload.single("notesImage"), updateNotes)
 // Route for Admin
 notesRouter.get("/getAllNotesAdmin", isAuth, isAdmin, getAllNotesByAdmin)
 notesRouter.delete("/deleteNotesAdmin", isAuth, isAdmin, deleteNotesbyAdmin)

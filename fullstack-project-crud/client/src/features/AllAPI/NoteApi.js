@@ -6,10 +6,10 @@ export const notesAPI = createApi({
     baseQuery: fetchBaseQuery({ baseUrl: baseUrl, credentials: "include" }),
     endpoints: (builder) => ({
         createNote: builder.mutation({
-            query: (data) => ({
+            query: (formData) => ({
                 url: "/create",
                 method: "POST",
-                body: data
+                body: formData
             })
         }),
         deleteNote: builder.mutation({
@@ -20,12 +20,14 @@ export const notesAPI = createApi({
         }),
         getAllNote: builder.query({
             query: (userId) => ({
-                url: `/getAllNotes/${userId}`
+                url: `/getAllNotes/${userId}`,
+                method: "GET"
             })
         }),
         getSingleNote: builder.query({
             query: (noteId) => ({
-                url: `/getSingleNote/${noteId}`
+                url: `/getSingleNote/${noteId}`,
+                method: "GET"
             })
         }),
         updateNote: builder.mutation({
@@ -38,4 +40,4 @@ export const notesAPI = createApi({
     })
 })
 
-export const { useCreateNoteMutation, useDeleteNoteMutation, useGetAllNoteQuery, useGetSingleNoteQuery, useUpdateNoteMutation } = notesAPI;
+export const { useCreateNoteMutation, useDeleteNoteMutation, useGetAllNoteQuery, useGetSingleNoteQuery, useUpdateNoteMutation } = notesAPI

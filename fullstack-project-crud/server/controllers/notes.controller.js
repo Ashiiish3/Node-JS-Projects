@@ -6,8 +6,13 @@ const notesCreate = async (req, res) => {
         return res.status(400).send({ message: "Please fill in all fields." })
     }
     try {
-        await notesModel.create({ title, content, userId: req.user._id })
-        res.status(200).json({ message: "Note has been created successfully." })
+        if (req.file) {
+            await notesModel.create({ title, content, notesImage: req?.file?.originalname, userId: req.user._id })
+            res.status(200).json({ message: "Note has been created successfully." })
+        } else {
+            await notesModel.create({ title, content, userId: req.user._id })
+            res.status(200).json({ message: "Note has been created successfully." })
+        }
     } catch (error) {
         res.status(400).json({ message: error })
     }
@@ -106,7 +111,7 @@ const getAllNotesByAdmin = async (req, res) => {
 const deleteNotesbyAdmin = async (req, res) => {
     try {
         await notesModel.deleteMany({})
-        res.status(200).json({message: "All Notes have been Deleted."})
+        res.status(200).json({ message: "All Notes have been Deleted." })
     } catch (error) {
         res.status(400).json({ message: error })
     }

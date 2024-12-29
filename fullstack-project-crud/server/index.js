@@ -9,6 +9,7 @@ require('dotenv').config()
 const app = express()
 app.use(cookieParser())
 app.use(express.json())
+app.use(express.static("./UploadsImages"));
 app.use(cors({
     origin: 'http://localhost:3000',
     credentials: true

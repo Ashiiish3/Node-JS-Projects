@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useUserSignInMutation } from "../features/AllAPI/UserApi";
@@ -7,17 +7,21 @@ export function Login() {
     const [email, setemail] = useState("");
     const [password, setpassword] = useState("");
     const navigate = useNavigate();
-    const [userSignIn, { isLoading, error, isError, isSuccess, data }] = useUserSignInMutation()
+    const [userSignIn, { error, isError, isSuccess, data }] = useUserSignInMutation()
     const handlesubmit = async (e) => {
         e.preventDefault()
-        try {
-            const res = await userSignIn({ email, password }).unwrap()
-            navigate('/')
-            toast.success(res?.message || "Login Successfully.")
-        } catch (error) {
+        await userSignIn({ email, password }).unwrap()
+    };
+    useEffect(() => {
+        if (isSuccess) {
+            toast.success(data?.message || "Login Successfully.")
+            // navigate('/')
+            localStorage.setItem("userData", JSON.stringify(data.userData))
+        }
+        if (isError) {
             toast.error(error?.data?.message || "Something went wrong!");
         }
-    };
+    }, [error, isError, isSuccess, data])
     return (
         <div
             className="min-vh-100 d-flex align-items-center justify-content-center"
@@ -46,6 +50,7 @@ export function Login() {
                                 Your email
                             </label>
                             <input
+                                required
                                 type="email"
                                 className="form-control"
                                 id="email"
@@ -60,6 +65,7 @@ export function Login() {
                                 Your password
                             </label>
                             <input
+                                required
                                 type="password"
                                 className="form-control"
                                 id="password"

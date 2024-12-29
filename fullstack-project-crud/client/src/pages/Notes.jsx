@@ -1,18 +1,34 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useGetAllNoteQuery } from '../features/AllAPI/NoteApi'
+import { useSelector } from 'react-redux'
+import NoteCard from '../components/NoteCard';
+import { Alert, Col, Container, Row } from 'react-bootstrap';
 
 export default function Notes() {
-  // const [getAllNote, { isLoading, isError, isSuccess, data }] = useGetAllNoteQuery()
-  console.log(useGetAllNoteQuery)
+  const { user } = useSelector((data) => data.auth)
+  const { isError, isLoading, isSuccess, refetch, data } = useGetAllNoteQuery(user?._id);
+  useEffect(() => {
+    if (isSuccess) {
+      refetch()
+    }
+  }, [isSuccess])
   return (
-    <div style={{minHeight: "100vh"}} className='d-flex flex-column flex-md-row'>
-      <div className='w-100'>
-        <h1 className='text-3xl font-semibold'>Notes resulte:</h1>
-        <div className='p-4 d-flex flex-wrap gap-4'>
-            <p className='text-xl text-gray-500'>No notes found.</p>
-            
-            <button className='btn btn-link text-teal-500 p-3'>Show More</button>
-        </div>
+    <div style={{ minHeight: "100vh" }} className='d-flex flex-column flex-md-row' >
+      <div className='container notes-container'>
+        {
+          data?.allUserNotes.length > 0 ? data?.allUserNotes.map((note) => <NoteCard key={note._id} note={note} />) : isLoading ? <div>loading...</div> : <Container className="py-5">
+            <Row className="justify-content-center">
+              <Col md={8} className="text-center">
+                <Alert variant="warning" className="p-4 shadow-sm">
+                  <h1 className="display-6 text-warning">No Notes Available</h1>
+                  <p className="text-muted mt-3">
+                    It seems like there are no notes to display at the moment. Please add some notes to view them here.
+                  </p>
+                </Alert>
+              </Col>
+            </Row>
+          </Container>
+        }
       </div>
     </div>
   )
