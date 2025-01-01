@@ -1,23 +1,26 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Container, Form, Image } from 'react-bootstrap'
 import { useParams } from 'react-router-dom'
-import { useGetSingleNoteQuery } from '../features/AllAPI/NoteApi'
+import { useGetSingleNoteQuery, useUpdateNoteMutation } from '../features/AllAPI/NoteApi'
+import { toast } from 'react-toastify'
 
 export default function UpdateNote() {
     const { noteId } = useParams()
-    const { data, isError, isLoading, isSuccess, refetch } = useGetSingleNoteQuery(noteId)
+    const { data, isSuccess, refetch } = useGetSingleNoteQuery(noteId)
+    const [updateNote, {isError, isLoading}] = useUpdateNoteMutation()
     const [title, setTitle] = useState("")
     const [content, setContent] = useState("")
     const [image, setImage] = useState("")
+    const [updatedImage, setUpdatedImage] = useState("")
     const [previewImage, setPreviewImage] = useState(null)
     const HandleImageChange = (e, setState) => {
         const file = e.target.files[0];
+        setUpdatedImage(file)
         const reader = new FileReader()
         reader.onload = () => {
             setState(reader.result)
         }
         reader.readAsDataURL(file)
-        console.log(file)
     }
     useEffect(() => {
         if (isSuccess && data?.isNoteExist) {
@@ -27,20 +30,30 @@ export default function UpdateNote() {
             setImage(notesImage)
             console.log(data?.isNoteExist)
         }
-    }, [isSuccess, data])
+        if(isError){
+            toast.error(isError)
+        }
+    }, [isSuccess, isError])
     const getImage = (image) => {
-        console.log(image)
         if (image.includes("http")) {
             return image
         } else {
             return `${process.env.REACT_APP_URL}/${image}`
         }
     }
-
+    const updateForm = async (e) => {
+        e.preventDefault()
+        const formData = new FormData();
+        formData.append('title', title)
+        formData.append('content', content)
+        formData.append('notesImage', updatedImage)
+        const data = await updateNote({ noteId, formData }).unwrap()
+        toast.success(data.message)
+    }
     return (
         <div className='d-flex' style={{ height: "100vh" }}>
             <Container className="d-flex justify-content-center align-items-center vh-100">
-                <Form className="p-4 border rounded bg-light" style={{ maxWidth: '500px', width: '100%' }}>
+                <Form className="p-4 border rounded bg-light" style={{ maxWidth: '500px', width: '100%' }} onSubmit={updateForm}>
                     <h5 className="text-center mb-4">Update Note</h5>
                     <Form.Group className="mb-3">
                         <Form.Label>Title:</Form.Label>

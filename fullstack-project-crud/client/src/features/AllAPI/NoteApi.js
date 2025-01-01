@@ -33,10 +33,10 @@ export const notesAPI = createApi({
             })
         }),
         updateNote: builder.mutation({
-            query: ({noteId, data}) => ({
-                url: `updateNotes/${noteId}`,
+            query: ({noteId, formData}) => ({
+                url: `/updateNotes/${noteId}`,
                 method: "PATCH",
-                body: data
+                body: formData
             }),
             invalidatesTags: ['Notes'],
         })
