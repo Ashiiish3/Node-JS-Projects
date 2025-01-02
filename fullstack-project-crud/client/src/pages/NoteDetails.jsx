@@ -1,24 +1,39 @@
 import React from 'react'
-import { Container } from 'react-bootstrap'
+import { Col, Container, Image, Row } from 'react-bootstrap'
 import { useGetSingleNoteQuery } from '../features/AllAPI/NoteApi'
 import { useParams } from 'react-router-dom'
 
 export default function NoteDetails() {
-  const {noteId} = useParams()
-  console.log(noteId)
-  const {isError, isLoading, isSuccess,data} = useGetSingleNoteQuery(noteId)
-  console.log(data?.isNoteExist)
-  return (
-    <Container>
-      <div>
-        <img src={data?.isNoteExist?.notesImage} alt="" />
-      </div>
-      <div>
-        <h5>{data?.isNoteExist?.name}</h5>
-      </div>
-      <div>
-        <p>dsf</p>
-      </div>
-    </Container>
+  const { noteId } = useParams()
+  const { data, isError, isLoading, isSuccess } = useGetSingleNoteQuery(noteId)
+  const getImage = (image) => {
+    if (image.includes("http")) {
+      return image
+    } else {
+      return `${process.env.REACT_APP_URL}/${image}`
+    }
+  }
+  return isLoading ? <h1>Loading</h1> : (
+    <div className='noteDetails'>
+      <Row className="mb-3">
+        <Col xs={12} className="text-center">
+          <Image
+            src={getImage(data?.isNoteExist?.notesImage)}
+            alt="Note Image"
+            fluid
+          />
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <h5 className="text-center">{data?.isNoteExist?.title}</h5>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <p>{data?.isNoteExist?.content}</p>
+        </Col>
+      </Row>
+    </div>
   )
 }

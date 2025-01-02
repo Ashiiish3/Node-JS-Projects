@@ -5,6 +5,7 @@ import { MdDelete } from "react-icons/md";
 import { toast } from 'react-toastify';
 import { Link } from "react-router-dom"
 import { useDeleteNoteMutation } from '../features/AllAPI/NoteApi';
+import { NotesSkeleton } from './NotesSkeleton';
 
 export default function NoteCard({ note }) {
   const getImage = (image) => {
@@ -14,7 +15,7 @@ export default function NoteCard({ note }) {
       return `${process.env.REACT_APP_URL}/${image}`
     }
   }
-  const [deleteNote, { isError, isLoading, error, data }] = useDeleteNoteMutation()
+  const [deleteNote, { data, isError, isLoading, error }] = useDeleteNoteMutation()
   const HandleDelete = async (noteId) => {
     const response = await deleteNote(noteId).unwrap()
     toast.success(response?.message || "Note has been Deleted successfully.");
@@ -26,7 +27,8 @@ export default function NoteCard({ note }) {
   }, [isError, error, data, isLoading])
   return (
     <div>
-      <Link to={`/noteDetails/${note._id}`} style={{textDecoration: "none"}}>
+      {/* {isLoading && [1, 2, 3, 4, 5].map((ele, i) => <NotesSkeleton key={i} />)} */}
+      <Link to={`/noteDetails/${note._id}`} style={{ textDecoration: "none" }}>
         <div className="note-card">
           <div className="note-image">
             <img
@@ -36,9 +38,6 @@ export default function NoteCard({ note }) {
           </div>
           <div className="note-title">
             <h5>{note.title || 'Title'}</h5>
-          </div>
-          <div className="note-content">
-            <p className='mb-0'>{note.content || 'Content'}</p>
           </div>
           <div className="note-actions">
             <Button variant="transparent" size="lg">

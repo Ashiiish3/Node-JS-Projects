@@ -41,3 +41,18 @@
   display: flex;
   justify-content: space-between;
 }
+.noteDetails {
+  border: 1px solid rgb(170, 170, 170);
+  text-align: center;
+  padding: 20px;
+  width: 40%;
+  margin: auto;
+  margin-top: 5%;
+  margin-bottom: 25%;
+}
+@media only screen and (max-width: 600px)  {
+  .noteDetails {
+    width: 80%;
+    padding: 10px;
+  }
+}

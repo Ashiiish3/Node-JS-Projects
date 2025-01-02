@@ -1,0 +1,35 @@
+.animate-pulse {
+    animation: pulse 1.5s infinite ease-in-out;
+  }
+.skeleton-image{
+    background-color: rgb(223, 223, 223);
+    height: 120px;
+    width: 300px;
+    border-radius: 10px;
+}
+.skeleton-title{
+    background-color: rgb(223, 223, 223);
+    height: 40px;
+    width: 300px;
+    border-radius: 5px;
+    margin: 10px 0px;
+}
+.skeleton-buttons{
+    display: flex;
+    justify-content: space-between;
+}
+.skeleton-buttons button{
+    background-color: rgb(223, 223, 223);
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    border: none;
+}
+@keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.4;
+    }
+  }
