@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Container, Form, Image } from 'react-bootstrap'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useGetSingleNoteQuery, useUpdateNoteMutation } from '../features/AllAPI/NoteApi'
 import { toast } from 'react-toastify'
 
 export default function UpdateNote() {
     const { noteId } = useParams()
     const { data, isSuccess, refetch } = useGetSingleNoteQuery(noteId)
-    const [updateNote, {isError, isLoading}] = useUpdateNoteMutation()
+    const [updateNote, { isError }] = useUpdateNoteMutation()
     const [title, setTitle] = useState("")
     const [content, setContent] = useState("")
     const [image, setImage] = useState("")
     const [updatedImage, setUpdatedImage] = useState("")
     const [previewImage, setPreviewImage] = useState(null)
+    const navigate = useNavigate()
+
     const HandleImageChange = (e, setState) => {
         const file = e.target.files[0];
         setUpdatedImage(file)
@@ -28,12 +30,11 @@ export default function UpdateNote() {
             setTitle(title)
             setContent(content)
             setImage(notesImage)
-            console.log(data?.isNoteExist)
         }
-        if(isError){
+        if (isError) {
             toast.error(isError)
         }
-    }, [isSuccess, isError])
+    }, [isSuccess, isError, data])
     const getImage = (image) => {
         if (image.includes("http")) {
             return image
@@ -46,9 +47,11 @@ export default function UpdateNote() {
         const formData = new FormData();
         formData.append('title', title)
         formData.append('content', content)
-        formData.append('notesImage', updatedImage)
+        formData.append('notesImage', updatedImage || image)
         const data = await updateNote({ noteId, formData }).unwrap()
         toast.success(data.message)
+        navigate('/notes')
+        refetch()
     }
     return (
         <div className='d-flex' style={{ height: "100vh" }}>
@@ -61,7 +64,7 @@ export default function UpdateNote() {
                     </Form.Group>
                     <Form.Group className="mb-3">
                         <Form.Label>Content:</Form.Label>
-                        <Form.Control type="text" placeholder="Enter content" value={content} onChange={(e) => setContent(e.target.value)} />
+                        <Form.Control as="textarea" rows={3} type="text" placeholder="Enter content" value={content} onChange={(e) => setContent(e.target.value)} />
                     </Form.Group>
                     <Form.Group className="mb-3">
                         <Form.Label>Upload Image</Form.Label>

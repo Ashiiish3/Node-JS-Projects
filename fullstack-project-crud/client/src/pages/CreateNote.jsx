@@ -47,7 +47,7 @@ export default function CreateNote() {
           <Form.Group className="mb-3">
             <Form.Label>Title:</Form.Label>
             <Form.Control
-            required
+              required
               type="text"
               placeholder="Enter title"
               onChange={(e) => setTitle(e.target.value)}
@@ -56,7 +56,9 @@ export default function CreateNote() {
           <Form.Group className="mb-3">
             <Form.Label>Content:</Form.Label>
             <Form.Control
-            required
+              required
+              as="textarea"
+              rows={3}
               type="text"
               placeholder="Enter content"
               onChange={(e) => setContent(e.target.value)}

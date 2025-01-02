@@ -3,7 +3,7 @@ import { Button } from 'react-bootstrap'
 import { MdModeEdit } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
 import { toast } from 'react-toastify';
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom"
 import { useDeleteNoteMutation } from '../features/AllAPI/NoteApi';
 
 export default function NoteCard({ note }) {
@@ -14,42 +14,44 @@ export default function NoteCard({ note }) {
       return `${process.env.REACT_APP_URL}/${image}`
     }
   }
-  const [deleteNote, { isError, isLoading, isSuccess, error, data }] = useDeleteNoteMutation()
+  const [deleteNote, { isError, isLoading, error, data }] = useDeleteNoteMutation()
   const HandleDelete = async (noteId) => {
-    await deleteNote(noteId).unwrap()
+    const response = await deleteNote(noteId).unwrap()
+    toast.success(response?.message || "Note has been Deleted successfully.");
   }
   useEffect(() => {
-    if (isSuccess) {
-      toast.success(data?.message || "Note has been Deleted successfully.");
-    }
     if (isError) {
       toast.error(error?.data?.message || "Something went wrong")
     }
-  }, [isSuccess, isError, error, data])
+  }, [isError, error, data, isLoading])
   return (
-    <div className="note-card">
-      <div className="note-image">
-        <img
-          src={getImage(note.notesImage)}
-          alt="Note image"
-        />
-      </div>
-      <div className="note-title">
-        <h5>{note.title || 'Title'}</h5>
-      </div>
-      <div className="note-content">
-        <p className='mb-0'>{note.content || 'Content'}</p>
-      </div>
-      <div className="note-actions">
-        <Button variant="transparent" size="lg">
-          <Link to={`/UpdateNote/${note._id}`}>
-            <MdModeEdit />
-          </Link>
-        </Button>
-        <Button variant="transparent" size="lg" onClick={() => HandleDelete(note._id)} >
-          <MdDelete className="text-danger" />
-        </Button>
-      </div>
+    <div>
+      <Link to={`/noteDetails/${note._id}`} style={{textDecoration: "none"}}>
+        <div className="note-card">
+          <div className="note-image">
+            <img
+              src={getImage(note.notesImage)}
+              alt="Note image"
+            />
+          </div>
+          <div className="note-title">
+            <h5>{note.title || 'Title'}</h5>
+          </div>
+          <div className="note-content">
+            <p className='mb-0'>{note.content || 'Content'}</p>
+          </div>
+          <div className="note-actions">
+            <Button variant="transparent" size="lg">
+              <Link to={`/UpdateNote/${note._id}`}>
+                <MdModeEdit />
+              </Link>
+            </Button>
+            <Button variant="transparent" size="lg" onClick={() => HandleDelete(note._id)} >
+              <MdDelete className="text-danger" />
+            </Button>
+          </div>
+        </div>
+      </Link>
     </div>
   )
 }

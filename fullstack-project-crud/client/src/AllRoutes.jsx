@@ -6,6 +6,7 @@ import { SignUp } from "./pages/Signup";
 import Notes from "./pages/Notes";
 import CreateNote from "./pages/CreateNote";
 import UpdateNote from "./pages/UpdateNote";
+import NoteDetails from "./pages/NoteDetails";
 
 export const Allroutes = () => {
     return (
@@ -16,6 +17,7 @@ export const Allroutes = () => {
             <Route path="/notes" element={<Notes />}></Route>
             <Route path="/create" element={<CreateNote />}></Route>
             <Route path="/updateNote/:noteId" element={<UpdateNote />}></Route>
+            <Route path="/noteDetails/:noteId" element={<NoteDetails />}></Route>
             <Route path="*" element={<h1>Page Not found.</h1>}></Route>
         </Routes>
     );

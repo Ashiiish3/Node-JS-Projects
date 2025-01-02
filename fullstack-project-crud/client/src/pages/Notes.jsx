@@ -11,7 +11,7 @@ export default function Notes() {
     if (isSuccess) {
       refetch()
     }
-  }, [isSuccess, refetch])
+  }, [isSuccess, refetch, isLoading])
   return (
     <div style={{ minHeight: "100vh" }} className='d-flex flex-column flex-md-row' >
       <div className='container notes-container'>
