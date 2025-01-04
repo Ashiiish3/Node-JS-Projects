@@ -7,6 +7,7 @@ import Notes from "./pages/Notes";
 import CreateNote from "./pages/CreateNote";
 import UpdateNote from "./pages/UpdateNote";
 import NoteDetails from "./pages/NoteDetails";
+import { PrivateRoutes } from "./components/PrivateRoutes";
 
 export const Allroutes = () => {
     return (
@@ -14,7 +15,11 @@ export const Allroutes = () => {
             <Route path="/" element={<Homepage />}></Route>
             <Route path="/sign-in" element={<Login />}></Route>
             <Route path="/sign-up" element={<SignUp />}></Route>
-            <Route path="/notes" element={<Notes />}></Route>
+            <Route path="/notes" element={
+                <PrivateRoutes>
+                    <Notes />
+                </PrivateRoutes>
+            }></Route>
             <Route path="/create" element={<CreateNote />}></Route>
             <Route path="/updateNote/:noteId" element={<UpdateNote />}></Route>
             <Route path="/noteDetails/:noteId" element={<NoteDetails />}></Route>
