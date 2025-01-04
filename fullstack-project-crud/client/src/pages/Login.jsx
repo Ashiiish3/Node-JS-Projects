@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useUserSignInMutation } from "../features/AllAPI/UserApi";
+import Cookies from 'js-cookie';
 
 export function Login() {
     const [email, setemail] = useState("");
@@ -16,6 +17,7 @@ export function Login() {
         if (isSuccess) {
             toast.success(data?.message || "Login Successfully.")
             // navigate('/')
+            Cookies.get('AccessToken')
             localStorage.setItem("userData", JSON.stringify(data.userData))
         }
         if (isError) {
