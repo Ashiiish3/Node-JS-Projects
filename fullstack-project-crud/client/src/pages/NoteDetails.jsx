@@ -2,6 +2,7 @@ import React from 'react'
 import { Col, Container, Image, Row } from 'react-bootstrap'
 import { useGetSingleNoteQuery } from '../features/AllAPI/NoteApi'
 import { useParams } from 'react-router-dom'
+import NoteDetailSkeleton from '../components/NoteDetailSkeleton'
 
 export default function NoteDetails() {
   const { noteId } = useParams()
@@ -13,7 +14,7 @@ export default function NoteDetails() {
       return `${process.env.REACT_APP_URL}/${image}`
     }
   }
-  return isLoading ? <h1>Loading</h1> : (
+  return isLoading ? <NoteDetailSkeleton /> : (
     <div className='noteDetails'>
       <Row className="mb-3">
         <Col xs={12} className="text-center">
