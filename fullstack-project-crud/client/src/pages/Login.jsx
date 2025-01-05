@@ -3,27 +3,33 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useUserSignInMutation } from "../features/AllAPI/UserApi";
 import Cookies from 'js-cookie';
+import { useDispatch } from "react-redux";
+import { userLogIn } from "../features/AuthSlice";
 
 export function Login() {
     const [email, setemail] = useState("");
     const [password, setpassword] = useState("");
     const navigate = useNavigate();
     const [userSignIn, { error, isError, isSuccess, data }] = useUserSignInMutation()
+    const dispatch = useDispatch();
+
     const handlesubmit = async (e) => {
         e.preventDefault()
         await userSignIn({ email, password }).unwrap()
     };
     useEffect(() => {
         if (isSuccess) {
-            toast.success(data?.message || "Login Successfully.")
-            // navigate('/')
-            Cookies.get('AccessToken')
+            const { userData, message } = data;
+            toast.success(message || "Login Successfully.")
+            const token = Cookies.get('AccessToken')
+            dispatch(userLogIn({ user: userData, token, isAuth: true }));
             localStorage.setItem("userData", JSON.stringify(data.userData))
+            navigate('/notes')
         }
         if (isError) {
             toast.error(error?.data?.message || "Something went wrong!");
         }
-    }, [error, isError, isSuccess, data])
+    }, [error, isError, isSuccess, data, dispatch, navigate])
     return (
         <div
             className="min-vh-100 d-flex align-items-center justify-content-center"

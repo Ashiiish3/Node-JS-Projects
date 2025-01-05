@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
 import { FaPlus } from "react-icons/fa6";
+import { useSelector } from "react-redux";
 
 export default function Navbar() {
+  const { user } = useSelector((data) => data.auth)
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light border-bottom">
       <div className="container">
@@ -26,7 +28,6 @@ export default function Navbar() {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-
         <div className="collapse navbar-collapse" id="navbarNav">
           <div className="d-flex ms-auto">
             <input
@@ -35,9 +36,7 @@ export default function Navbar() {
               placeholder="Search..."
               aria-label="Search"
             />
-
           </div>
-
           <ul className="navbar-nav ms-auto align-items-center gap-2">
             <li className="nav-item dropdown">
               <a
@@ -73,12 +72,18 @@ export default function Navbar() {
                   <button className="dropdown-item">Sign out</button>
                 </li> </ul>
             </li>
-
             <li className="nav-item">
               <Link to="/sign-in" className="btn btn-outline-primary">
                 Sign In
               </Link>
             </li>
+            {
+              user?.role === "Admin" && <li className="nav-item">
+                <Link to={'/getAllNotes'} className="btn btn-outline-primary">
+                  Get All Notes
+                </Link>
+              </li>
+            }
           </ul>
         </div>
       </div>
