@@ -5,7 +5,6 @@ import { MdDelete } from "react-icons/md";
 import { toast } from 'react-toastify';
 import { Link } from "react-router-dom"
 import { useDeleteNoteMutation } from '../features/AllAPI/NoteApi';
-import { NotesSkeleton } from './NotesSkeleton';
 
 export default function NoteCard({ note }) {
   const getImage = (image) => {
@@ -48,7 +47,7 @@ export default function NoteCard({ note }) {
               View More
             </Link>
           </Button>
-          <Button variant="transparent" size="lg" onClick={() => HandleDelete(note._id)} >
+          <Button variant="transparent" size="lg" onClick={() => HandleDelete(note._id)}>
             <MdDelete className="text-danger" />
           </Button>
         </div>

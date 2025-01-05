@@ -3,6 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 const baseUrl = `${process.env.REACT_APP_URL}/note`;
 export const notesAPI = createApi({
     reducerPath: "notesAPI",
+    tagTypes: ["Note"],
     baseQuery: fetchBaseQuery({ baseUrl: baseUrl, credentials: "include" }),
     endpoints: (builder) => ({
         createNote: builder.mutation({

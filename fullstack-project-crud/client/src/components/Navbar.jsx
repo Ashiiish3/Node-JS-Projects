@@ -78,7 +78,7 @@ export default function Navbar() {
               </Link>
             </li>
             {
-              user?.role === "Admin" && <li className="nav-item">
+              user?.role === "admin" && <li className="nav-item">
                 <Link to={'/getAllNotes'} className="btn btn-outline-primary">
                   Get All Notes
                 </Link>
