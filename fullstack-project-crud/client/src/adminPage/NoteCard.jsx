@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { useDeleteNoteByAdminMutation } from '../features/AllAPI/AdminApi'
+import { toast } from 'react-toastify'
 
 export default function NoteCard({ note }) {
     const getImage = (image) => {
@@ -9,6 +11,16 @@ export default function NoteCard({ note }) {
             return `${process.env.REACT_APP_URL}/${image}`
         }
     }
+    const [deleteNoteByAdmin, { data, isError, isSuccess, isLoading, error }] = useDeleteNoteByAdminMutation()
+    const HandleDelete = async (noteId) => {
+        const deleteData = await deleteNoteByAdmin(noteId).unwrap()
+        toast.success(deleteData?.message || "Note has been Deleted.")
+    }
+    useEffect(() => {
+        if (isError) {
+            toast.error(error?.data?.message || "Something went wrong")
+        }
+    }, [isSuccess, isError, error, data, isLoading])
     return (
         <div>
             <div className="note-admin-card">
@@ -31,7 +43,7 @@ export default function NoteCard({ note }) {
                                 Edit
                             </Link>
                         </button>
-                        <button className='btn btn-danger'>
+                        <button className='btn btn-danger' onClick={() => HandleDelete(note._id)}>
                             Delete
                         </button>
                     </div>

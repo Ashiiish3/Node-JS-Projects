@@ -11,7 +11,8 @@ export const notesAPI = createApi({
                 url: "/create",
                 method: "POST",
                 body: formData
-            })
+            }),
+            invalidatesTags: ['Notes'],
         }),
         deleteNote: builder.mutation({
             query: (noteId) => ({

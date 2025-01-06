@@ -8,11 +8,6 @@ import { NotesSkeleton } from '../SkeletonLoading/NotesSkeleton'
 export default function Notes() {
   const { user } = useSelector((data) => data.auth)
   const { isError, isLoading, isSuccess, refetch, data } = useGetAllNoteQuery(user?._id);
-  useEffect(() => {
-    if (isSuccess) {
-      refetch()
-    }
-  }, [isSuccess, refetch, isLoading])
   return (
     <div style={{ minHeight: "100vh" }} className='d-flex flex-column flex-md-row' >
       <div className='container notes-container'>

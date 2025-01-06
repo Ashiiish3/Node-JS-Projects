@@ -5,12 +5,12 @@ import NoteCard from '../adminPage/NoteCard'
 import AdminNotesSkeleton from '../SkeletonLoading/AdminNotesSkeleton'
 
 export function AllNotesGet() {
-  const { data, isLoading, isSuccess } = useGetAllNotesByAdminQuery()
-  // useEffect(() => {
-  //   if (isSuccess) {
-  //     console.log(data.AllNotes)
-  //   }
-  // }, [data, isLoading, isSuccess])
+  const { data, isLoading, isSuccess, refetch } = useGetAllNotesByAdminQuery()
+  useEffect(() => {
+    if (isSuccess) {
+      refetch()
+    }
+  }, [isSuccess, refetch, isLoading])
   const uniqueNames = new Set();
 
   return (

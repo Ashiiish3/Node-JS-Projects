@@ -24,17 +24,6 @@ export default function UpdateNote() {
         }
         reader.readAsDataURL(file)
     }
-    useEffect(() => {
-        if (isSuccess && data?.isNoteExist) {
-            const { title, content, notesImage } = data?.isNoteExist
-            setTitle(title)
-            setContent(content)
-            setImage(notesImage)
-        }
-        if (isError) {
-            toast.error(isError)
-        }
-    }, [isSuccess, isError, data])
     const getImage = (image) => {
         if (image.includes("http")) {
             return image
@@ -51,8 +40,18 @@ export default function UpdateNote() {
         const data = await updateNote({ noteId, formData }).unwrap()
         toast.success(data.message)
         navigate('/notes')
-        refetch()
     }
+    useEffect(() => {
+        if (isSuccess && data?.isNoteExist) {
+            const { title, content, notesImage } = data?.isNoteExist
+            setTitle(title)
+            setContent(content)
+            setImage(notesImage)
+        }
+        if (isError) {
+            toast.error(isError)
+        }
+    }, [isSuccess, isError, data])
     return (
         <div className='d-flex' style={{ height: "100vh" }}>
             <Container className="d-flex justify-content-center align-items-center vh-100">

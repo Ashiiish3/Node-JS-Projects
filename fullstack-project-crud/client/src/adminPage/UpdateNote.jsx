@@ -1,19 +1,28 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Container, Form, Image } from 'react-bootstrap'
 import { useNavigate, useParams } from 'react-router-dom'
-import { useGetSingleNoteByAdminQuery } from '../features/AllAPI/AdminApi'
+import { useGetSingleNoteByAdminQuery, useUpdateNoteByAdminMutation } from '../features/AllAPI/AdminApi'
+import { toast } from 'react-toastify'
 
 export default function UpdateNotebyAdmin() {
     const { noteId } = useParams()
     const { data, isSuccess, refetch } = useGetSingleNoteByAdminQuery(noteId)
+    const [updateNoteByAdmin, { isError }] = useUpdateNoteByAdminMutation()
     const [title, setTitle] = useState("")
     const [content, setContent] = useState("")
     const [image, setImage] = useState("")
+    const [updatedImage, setUpdatedImage] = useState("")
     const [previewImage, setPreviewImage] = useState("")
     const navigate = useNavigate()
 
     const HandleImageChange = (e, setState) => {
-
+        const file = e.target.files[0]
+        setUpdatedImage(file)
+        const reader = new FileReader()
+        reader.onload = () => {
+            setState(reader.result)
+        }
+        reader.readAsDataURL(file)
     }
     const getImage = (image) => {
         if (image.includes("http")) {
@@ -22,18 +31,27 @@ export default function UpdateNotebyAdmin() {
             return `${process.env.REACT_APP_URL}/${image}`
         }
     }
-    const updateForm = (e) => {
+    const updateForm = async (e) => {
         e.preventDefault()
-        console.log(e)
+        const formData = new FormData()
+        formData.append('title', title)
+        formData.append('content', content)
+        formData.append('notesImage', updatedImage || image)
+        const data = await updateNoteByAdmin({ noteId, formData }).unwrap()
+        toast.success(data.message)
+        navigate('/getAllNotes')
     }
     useEffect(() => {
-        if (isSuccess) {
-            const { title, content, notesImage } = data.Note
+        if (isSuccess && data?.Note) {
+            const { title, content, notesImage } = data?.Note
             setTitle(title)
             setContent(content)
             setImage(notesImage)
         }
-    }, [isSuccess])
+        if (isError) {
+            toast.error(isError)
+        }
+    }, [isSuccess, isError, data])
     return (
         <div className='d-flex' style={{ height: "100vh" }}>
             <Container className="d-flex justify-content-center align-items-center vh-100">

@@ -24,13 +24,15 @@ export const adminAPI = createApi({
                 url: `/updateNotAdmin/${noteId}`,
                 method: "PUT",
                 body: formData
-            })
+            }),
+            invalidatesTags: ['Admin']
         }),
         deleteNoteByAdmin: builder.mutation({
             query: (noteId) => ({
                 url: `/deleteNotesAdmin/${noteId}`,
                 method: "DELETE"
-            })
+            }),
+            invalidatesTags: ['Admin']
         })
     })
 })
