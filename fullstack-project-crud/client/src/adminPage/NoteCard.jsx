@@ -9,7 +9,6 @@ export default function NoteCard({ note }) {
             return `${process.env.REACT_APP_URL}/${image}`
         }
     }
-    console.log(note.userId)
     return (
         <div>
             <div className="note-admin-card">
@@ -28,7 +27,7 @@ export default function NoteCard({ note }) {
                     </div>
                     <div className="note-admin-actions">
                         <button className='btn btn-primary'>
-                            <Link to={`/UpdateNote/${note._id}`} style={{ textDecoration: "none", color: "white" }} >
+                            <Link to={`/updateNotebyAdmin/${note._id}`} style={{ textDecoration: "none", color: "white" }} >
                                 Edit
                             </Link>
                         </button>

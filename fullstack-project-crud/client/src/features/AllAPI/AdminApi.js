@@ -13,6 +13,19 @@ export const adminAPI = createApi({
             }),
             providesTags: ['Admin']
         }),
+        getSingleNoteByAdmin: builder.query({
+            query: (noteId) => ({
+                url: `/singleNoteAdmin/${noteId}`,
+                method: "GET"
+            })
+        }),
+        updateNoteByAdmin: builder.mutation({
+            query: ({ noteId, formData }) => ({
+                url: `/updateNotAdmin/${noteId}`,
+                method: "PUT",
+                body: formData
+            })
+        }),
         deleteNoteByAdmin: builder.mutation({
             query: (noteId) => ({
                 url: `/deleteNotesAdmin/${noteId}`,
@@ -22,4 +35,4 @@ export const adminAPI = createApi({
     })
 })
 
-export const { useGetAllNotesByAdminQuery, useDeleteNoteByAdminMutation } = adminAPI
+export const { useGetAllNotesByAdminQuery, useGetSingleNoteByAdminQuery, useUpdateNoteByAdminMutation, useDeleteNoteByAdminMutation } = adminAPI

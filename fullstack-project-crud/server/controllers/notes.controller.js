@@ -7,7 +7,7 @@ const notesCreate = async (req, res) => {
     }
     try {
         if (req.file) {
-            await notesModel.create({ title, content, notesImage: req?.file?.originalname, userId: req.user._id, name:req.user.name })
+            await notesModel.create({ title, content, notesImage: req?.file?.originalname, userId: req.user._id, name: req.user.name })
             res.status(200).json({ message: "Note has been created successfully." })
         } else {
             await notesModel.create({ title, content, userId: req.user._id })
@@ -107,13 +107,54 @@ const getAllNotesByAdmin = async (req, res) => {
         res.status(400).json({ message: error })
     }
 }
-// delete notes by Admin
-const deleteNotesbyAdmin = async (req, res) => {
+// get single note by Admin
+const getSingleNotebyAdmin = async (req, res) => {
+    const { noteId } = req.params
     try {
-        await notesModel.deleteMany({})
-        res.status(200).json({ message: "All Notes have been Deleted." })
+        const Note = await notesModel.findById(noteId)
+        if (!Note) {
+            return res.status(400).json({ message: "Notes not Exist." })
+        }
+        res.status(200).json({ Note })
     } catch (error) {
         res.status(400).json({ message: error })
     }
 }
-module.exports = { notesCreate, notesDelete, getAllNotes, getSingleNote, updateNotes, getAllNotesByAdmin, deleteNotesbyAdmin }
+// update note by Admin
+const updateNotebyAdmin = async (req, res) => {
+    const { title, content, notesImage } = req.body
+    const { noteId } = req.params
+    console.log(noteId)
+    try {
+        const updatedNoteData = {
+            title,
+            content,
+            notesImage: req?.file?.originalname
+        }
+        const Note = await notesModel.findById(noteId)
+        console.log(Note)
+        if (!Note) {
+            return res.status(400).json({ message: "Notes not Exist." })
+        }
+        if (req.file) {
+            const updatedNote = await notesModel.findByIdAndUpdate(noteId, updatedNoteData, { new: true })
+            res.status(200).json({ message: "Note has been updated.", Note: updatedNote })
+        } else {
+            const updatedNote = await notesModel.findByIdAndUpdate(noteId, { ...req.body }, { new: true })
+            res.status(200).json({ message: "Note has been updated.", Note: updatedNote })
+        }
+    } catch (error) {
+        res.status(400).json({ message: error })
+    }
+}
+// delete notes by Admin
+const deleteNotesbyAdmin = async (req, res) => {
+    const { noteId } = req.params
+    try {
+        await notesModel.findByIdAndDelete(noteId)
+        res.status(200).json({ message: "Note has been Deleted." })
+    } catch (error) {
+        res.status(400).json({ message: error })
+    }
+}
+module.exports = { notesCreate, notesDelete, getAllNotes, getSingleNote, updateNotes, getAllNotesByAdmin, deleteNotesbyAdmin, updateNotebyAdmin,getSingleNotebyAdmin }

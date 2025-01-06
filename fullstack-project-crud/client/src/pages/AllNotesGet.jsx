@@ -1,17 +1,16 @@
 import React, { useEffect } from 'react'
 import { useGetAllNotesByAdminQuery } from '../features/AllAPI/AdminApi'
 import { Alert, Col, Container, Row } from 'react-bootstrap'
-import { NotesSkeleton } from '../SkeletonLoading/NotesSkeleton'
 import NoteCard from '../adminPage/NoteCard'
 import AdminNotesSkeleton from '../SkeletonLoading/AdminNotesSkeleton'
 
 export function AllNotesGet() {
   const { data, isLoading, isSuccess } = useGetAllNotesByAdminQuery()
-  useEffect(() => {
-    if (isSuccess) {
-      console.log(data.AllNotes)
-    }
-  }, [data, isLoading, isSuccess])
+  // useEffect(() => {
+  //   if (isSuccess) {
+  //     console.log(data.AllNotes)
+  //   }
+  // }, [data, isLoading, isSuccess])
   const uniqueNames = new Set();
 
   return (
