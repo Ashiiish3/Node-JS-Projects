@@ -1,20 +1,35 @@
 import React, { useEffect } from 'react'
 import { useGetAllNotesByAdminQuery } from '../features/AllAPI/AdminApi'
 import { Alert, Col, Container, Row } from 'react-bootstrap'
-import { NotesSkeleton } from '../components/NotesSkeleton'
-import NoteCard from '../app/adminPage/NoteCard'
+import { NotesSkeleton } from '../SkeletonLoading/NotesSkeleton'
+import NoteCard from '../adminPage/NoteCard'
+import AdminNotesSkeleton from '../SkeletonLoading/AdminNotesSkeleton'
 
 export function AllNotesGet() {
   const { data, isLoading, isSuccess } = useGetAllNotesByAdminQuery()
   useEffect(() => {
     if (isSuccess) {
+      console.log(data.AllNotes)
     }
   }, [data, isLoading, isSuccess])
+  const uniqueNames = new Set();
+
   return (
     <div style={{ minHeight: "100vh" }} className='d-flex flex-column flex-md-row'>
-      <div className='container notes-container'>
+      <div className='notes-admin-container'>
         {
-          data?.AllNotes.length > 0 ? data?.AllNotes.map((note, i) => <NoteCard note={note} key={i} />) : isLoading ? [1, 2, 3, 4, 5, 7, 6, 8, 9, 10].map((ele, i) => <NotesSkeleton key={i} />) : <Container className="py-5">
+          data?.AllNotes.length > 0 ? data.AllNotes.map((note, i) => {
+            const isUniqueName = !uniqueNames.has(note.name);
+            if (isUniqueName) {
+              uniqueNames.add(note.name);
+            }
+            return (
+              <div key={i}>
+                {isUniqueName && <h6 className='mb-2'>User Name: {note.name}</h6>}
+                <NoteCard note={note} />
+              </div>
+            );
+          }) : isLoading ? [1, 2, 3, 4, 5, 7, 6, 8, 9, 10].map((ele, i) => <AdminNotesSkeleton key={i} />) : <Container className="py-5">
             <Row className="justify-content-center">
               <Col md={8} className="text-center">
                 <Alert variant="warning" className="p-4 shadow-sm">

@@ -3,7 +3,7 @@ import { useGetAllNoteQuery } from '../features/AllAPI/NoteApi'
 import { useSelector } from 'react-redux'
 import NoteCard from '../components/NoteCard';
 import { Alert, Col, Container, Row } from 'react-bootstrap';
-import { NotesSkeleton } from '../components/NotesSkeleton'
+import { NotesSkeleton } from '../SkeletonLoading/NotesSkeleton'
 
 export default function Notes() {
   const { user } = useSelector((data) => data.auth)

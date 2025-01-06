@@ -2,7 +2,7 @@ import React from 'react'
 import { Col, Container, Image, Row } from 'react-bootstrap'
 import { useGetSingleNoteQuery } from '../features/AllAPI/NoteApi'
 import { useParams } from 'react-router-dom'
-import NoteDetailSkeleton from '../components/NoteDetailSkeleton'
+import NoteDetailSkeleton from '../SkeletonLoading/NoteDetailSkeleton'
 
 export default function NoteDetails() {
   const { noteId } = useParams()

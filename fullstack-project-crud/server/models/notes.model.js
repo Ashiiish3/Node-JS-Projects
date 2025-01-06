@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const notesSchema = new mongoose.Schema(
     {
+        name: String,
         title: String,
         content: String,
         notesImage : {

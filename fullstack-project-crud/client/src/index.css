@@ -1,4 +1,4 @@
-.notes-container {
+.notes-container, .notes-admin-container {
   margin: auto;
   display: flex;
   flex-direction: row;
@@ -15,7 +15,8 @@
   overflow: hidden;
   transition: transform 0.2s, box-shadow 0.2s;
 }
-.note-card:hover {
+.note-card:hover,
+.note-admin-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
@@ -50,9 +51,48 @@
   margin-top: 5%;
   margin-bottom: 25%;
 }
-@media only screen and (max-width: 600px)  {
+@media only screen and (max-width: 600px) {
   .noteDetails {
     width: 80%;
     padding: 10px;
   }
+}
+/* For Admin */
+.notes-admin-container{
+  width: 60%;
+  gap: 15px;
+  flex-direction: column;
+}
+.note-admin-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+.note-admin-image {
+  width: 250px;
+  height: 150px;
+}
+.note-admin-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-bottom: 1px solid #ddd;
+  border: 1px solid rgb(185, 185, 185);
+  padding: 5px;
+}
+.note-admin-body {
+  width: 100%;
+  padding: 0px 0px 0px 15px;
+}
+.note-admin-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+}
+.note-admin-actions button {
+  border: transparent;
+  padding: 5px 15px;
 }

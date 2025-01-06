@@ -7,7 +7,7 @@ const notesCreate = async (req, res) => {
     }
     try {
         if (req.file) {
-            await notesModel.create({ title, content, notesImage: req?.file?.originalname, userId: req.user._id })
+            await notesModel.create({ title, content, notesImage: req?.file?.originalname, userId: req.user._id, name:req.user.name })
             res.status(200).json({ message: "Note has been created successfully." })
         } else {
             await notesModel.create({ title, content, userId: req.user._id })
