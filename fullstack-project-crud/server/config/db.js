@@ -1,5 +1,6 @@
 const mongoose = require("mongoose")
+require('dotenv').config()
 
-const connectWithDb = mongoose.connect("mongodb://127.0.0.1:27017/fullStackCrud")
+const connectWithDb = mongoose.connect(process.env.MONGODB_URL)
 
 module.exports = connectWithDb;

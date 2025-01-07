@@ -11,24 +11,28 @@ export function AllNotesGet() {
       refetch()
     }
   }, [isSuccess, refetch, isLoading])
-  const uniqueNames = new Set();
+  const groupedNotes = data?.AllNotes.reduce((acc, note) => {
+    // console.log(acc)
+    // console.log(note)
+    if (!acc[note.name]) {
+      acc[note.name] = [];
+    }
+    acc[note.name].push(note);
+    return acc;
+  }, {});
 
   return (
     <div style={{ minHeight: "100vh" }} className='d-flex flex-column flex-md-row'>
       <div className='notes-admin-container'>
         {
-          data?.AllNotes.length > 0 ? data.AllNotes.map((note, i) => {
-            const isUniqueName = !uniqueNames.has(note.name);
-            if (isUniqueName) {
-              uniqueNames.add(note.name);
-            }
-            return (
-              <div key={i}>
-                {isUniqueName && <h6 className='mb-2'>User Name: {note.name}</h6>}
-                <NoteCard note={note} />
-              </div>
-            );
-          }) : isLoading ? [1, 2, 3, 4, 5, 7, 6, 8, 9, 10].map((ele, i) => <AdminNotesSkeleton key={i} />) : <Container className="py-5">
+          data?.AllNotes.length > 0 ? Object.entries(groupedNotes).map(([name, notes]) => (
+            <div key={name} className="mb-4">
+              <h6 className="mb-2">User Name: {name}</h6>
+              {notes.map((note, i) => (
+                <NoteCard key={i} note={note} />
+              ))}
+            </div>
+          )) : isLoading ? [1, 2, 3, 4, 5, 7, 6, 8, 9, 10].map((ele, i) => <AdminNotesSkeleton key={i} />) : <Container className="py-5">
             <Row className="justify-content-center">
               <Col md={8} className="text-center">
                 <Alert variant="warning" className="p-4 shadow-sm">
