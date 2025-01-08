@@ -11,7 +11,7 @@ app.use(cookieParser())
 app.use(express.json())
 app.use(express.static("./UploadsImages"));
 app.use(cors({
-    origin: ['http://localhost:3000', 'http://localhost:4000', "http://localhost:5000", "http://localhost:6000"],
+    origin: ['http://localhost:3000', 'http://localhost:4000', "http://localhost:5000", "http://localhost:6000", "https://fullstack-cred-project-server.onrender.com"],
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
     credentials: true
 }))
