@@ -12,8 +12,6 @@ export function AllNotesGet() {
     }
   }, [isSuccess, refetch, isLoading])
   const groupedNotes = data?.AllNotes.reduce((acc, note) => {
-    // console.log(acc)
-    // console.log(note)
     if (!acc[note.name]) {
       acc[note.name] = [];
     }

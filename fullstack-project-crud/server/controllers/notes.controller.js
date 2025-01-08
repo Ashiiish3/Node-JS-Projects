@@ -7,10 +7,10 @@ const notesCreate = async (req, res) => {
     }
     try {
         if (req.file) {
-            await notesModel.create({ title, content, notesImage: req?.file?.originalname, userId: req.user._id, name: req.user.name })
+            await notesModel.create({ title, content, notesImage: req?.file?.filename, userId: req.user._id, name: req.user.name })
             res.status(200).json({ message: "Note has been created successfully." })
         } else {
-            await notesModel.create({ title, content, userId: req.user._id })
+            await notesModel.create({ title, content, userId: req.user._id, name: req.user.name })
             res.status(200).json({ message: "Note has been created successfully." })
         }
     } catch (error) {
@@ -74,7 +74,7 @@ const updateNotes = async (req, res) => {
         const updatedNoteData = {
             title,
             content,
-            notesImage: req?.file?.originalname
+            notesImage: req?.file?.filename
         }
         const isNoteExist = await notesModel.findById(noteId)
         if (!isNoteExist) {
@@ -124,15 +124,13 @@ const getSingleNotebyAdmin = async (req, res) => {
 const updateNotebyAdmin = async (req, res) => {
     const { title, content, notesImage } = req.body
     const { noteId } = req.params
-    console.log(noteId)
     try {
         const updatedNoteData = {
             title,
             content,
-            notesImage: req?.file?.originalname
+            notesImage: req?.file?.filename
         }
         const Note = await notesModel.findById(noteId)
-        console.log(Note)
         if (!Note) {
             return res.status(400).json({ message: "Notes not Exist." })
         }

@@ -7,7 +7,7 @@ import { NotesSkeleton } from '../SkeletonLoading/NotesSkeleton'
 
 export default function Notes() {
   const { user } = useSelector((data) => data.auth)
-  const { isError, isLoading, isSuccess, refetch, data } = useGetAllNoteQuery(user?._id);
+  const { isLoading, isSuccess, refetch, data } = useGetAllNoteQuery(user?._id);
   useEffect(() => {
     if (isSuccess) {
       refetch()

@@ -29,7 +29,7 @@ export default function NoteCard({ note }) {
       <div className="note-card">
         <div className="note-image">
           <img
-            src={getImage(note.notesImage)}
+            src={getImage(note?.notesImage)}
             alt="Note image"
           />
         </div>

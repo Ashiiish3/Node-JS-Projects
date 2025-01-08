@@ -2,7 +2,7 @@ import React from 'react'
 
 export const Homepage = () => {
     return (
-        <div className="py-md-32 position-relative" style={{minHeight: "100vh"}}>
+        <div className="py-md-32 position-relative overflow-hidden" style={{ minHeight: "100vh" }}>
             <div className="container-lg max-w-screen-xl">
                 <div className="row align-items-center">
                     <div className="col-lg-6 order-lg-1 ms-auto d-none d-lg-block">
@@ -47,7 +47,7 @@ export const Homepage = () => {
                     </div>
                     <div className="col-lg-6 order-md-0">
                         {/* <!-- Surtitle --> */}
-                        <h5 className="h5 mb-5 text-uppercase text-warning mb-5">
+                        <h5 className="h5 mb-5 text-uppercase text-warning">
                             Welcome to Our Blog
                         </h5>
                         {/* <!-- Heading --> */}
