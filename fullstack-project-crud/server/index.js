@@ -11,9 +11,10 @@ app.use(cookieParser())
 app.use(express.json())
 app.use(express.static("./UploadsImages"));
 app.use(cors({
-    origin: ["https://fullstack-cred-project-server.onrender.com", 'http://localhost:3000', 'http://localhost:4000', "http://localhost:5000", "http://localhost:6000"],
+    origin: ["https://cred-full-stack-project.vercel.app", 'http://localhost:3000', 'http://localhost:4000', "http://localhost:5000", "http://localhost:6000"],
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
-    credentials: true
+    credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"],
 }))
 
 app.use("/user", userRouter)
