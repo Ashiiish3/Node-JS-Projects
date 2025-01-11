@@ -58,7 +58,7 @@ const userSignIn = async (req, res) => {
             }
         });
     } catch (error) {
-        res.status(500).send({ message: "Error creating Sing Up", error })
+        res.status(500).send({ message: "Error creating Sing Ip", error })
     }
 }
 
