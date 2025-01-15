@@ -1,6 +1,7 @@
 const userModel = require("../models/user.model");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const createOTPandToken = require("../utils/otp");
 require('dotenv').config()
 
 const userSignUp = async (req, res) => {
@@ -16,6 +17,7 @@ const userSignUp = async (req, res) => {
         if (isUserExist) {
             return res.status(400).send({ message: "Email already exist." })
         }
+        createOTPandToken(req.body)
         bcrypt.hash(password, 5, async (err, hash) => {
             if (err) {
                 res.status(500).send({ message: "Error in hasing Password." })
@@ -64,7 +66,6 @@ const userSignIn = async (req, res) => {
 
 const userSignOut = (req, res) => {
     try {
-        console.log(req.cookies)
         res.clearCookie("AccessToken").json({ message: "User Log out successfully." })
     } catch (error) {
         res.status(500).send({ message: "Error while LogOut", error })
