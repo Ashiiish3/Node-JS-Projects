@@ -1,25 +1,36 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaPlus } from "react-icons/fa6";
 import { useSelector } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useUserSignOutMutation } from "../features/AllAPI/UserApi";
+import { toast } from "react-toastify";
+import Cookies from 'js-cookie';
 
 export default function Navbar() {
   const { user, token } = useSelector((data) => data.auth)
-  // const select = useSelector((data) => data.auth)
-  // console.log(select)
   const [isOpen, setIsOpen] = useState(false);
-
-  // Toggle the dropdown
+  const navigate = useNavigate()
+  const [userSignOut, { data, isSuccess }] = useUserSignOutMutation()
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
+  const signOut = async () => {
+    Cookies.remove('AccessToken');
+    setIsOpen(false)
+    navigate('/')
+    await userSignOut()
+  }
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success(data?.message || "You are log out successfully.")
+    }
+  }, [isSuccess])
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light border-bottom">
       <div className="container">
         <Link to="/" className="navbar-brand font-weight-bold">
           Home
         </Link>
-
         <Link to="/notes" className="navbar-brand font-weight-bold">
           Notes
         </Link>
@@ -67,11 +78,8 @@ export default function Navbar() {
                     <div className="dropdown-menu show position-absolute end-0 mt-2 p-0 w-auto">
                       <div className="dropdown-header fw-bold">Hi {user.name}!</div>
                       <div className="dropdown-divider"></div>
-                      <a href="/profile" className="dropdown-item">
-                        Profile
-                      </a>
                       <button
-                        onClick={() => alert("Signed out")}
+                        onClick={signOut}
                         className="dropdown-item"
                       >
                         Sign out

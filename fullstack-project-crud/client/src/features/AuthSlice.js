@@ -22,6 +22,8 @@ export const authSlice = createSlice({
             state.user = null
             state.token = null
             state.isAuth = null
+            Cookies.remove('AccessToken')
+            localStorage.removeItem("userData")
         }
     }
 })

@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { userLogIn } from '../AuthSlice';
+import { userLogIn, userLogOut } from '../AuthSlice';
 
 const baseUrl = `${process.env.REACT_APP_URL}/user`;
 export const userAPI = createApi({
@@ -33,8 +33,23 @@ export const userAPI = createApi({
                     console.error("Login error:", error);
                 }
             }
+        }),
+        userSignOut: builder.mutation({
+            query: () => ({
+                url: '/signout',
+                method: "GET"
+            }),
+            async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+                try {
+                    await queryFulfilled;
+                    dispatch(userLogOut())
+
+                } catch (error) {
+                    console.error("Logout error:", error);
+                }
+            }
         })
     })
 })
 
-export const { useUserSignUpMutation, useUserSignInMutation } = userAPI
+export const { useUserSignUpMutation, useUserSignInMutation, useUserSignOutMutation } = userAPI
