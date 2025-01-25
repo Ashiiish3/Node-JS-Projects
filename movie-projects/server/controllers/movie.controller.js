@@ -30,6 +30,17 @@ const getAllMovies = async (req, res) => {
         res.status(400).json({ message: "error getting all movies", error })
     }
 }
+const getSingleMovie = async (req, res) => {
+    const { movieId } = req.params
+    if (!movieId) {
+        return res.status(400).json({ message: "movieId is required." })
+    }
+    try {
+        
+    } catch (error) {
+        return res.status(400).json({ message: "error getting a movie", error })
+    }
+}
 const updateMovie = async (req, res) => {
     const { title, genre, director, releaseYear, description } = req.body
     const { movieId } = req.params
@@ -70,4 +81,4 @@ const deleteMovie = async (req, res) => {
     }
 }
 
-module.exports = { createMovie, getAllMovies, updateMovie, deleteMovie }
+module.exports = { createMovie, getAllMovies, getSingleMovie, updateMovie, deleteMovie }

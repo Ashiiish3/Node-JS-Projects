@@ -9,7 +9,8 @@ const movieSchema = new mongoose.Schema({
     director: String,
     releaseYear: Number,
     description: String,
-    userId: String
+    userId: String,
+    image: String
 }, {
     timestamps: true,
     versionKey: false
