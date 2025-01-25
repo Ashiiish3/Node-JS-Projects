@@ -7,7 +7,7 @@ const movieSchema = new mongoose.Schema({
         enum: ["Action", "Comedy", "Drama", "Horror", "Sci-Fi", "Romance", "Thriller"]
     },
     director: String,
-    releaseYear: String,
+    releaseYear: Number,
     description: String,
     userId: String
 }, {
