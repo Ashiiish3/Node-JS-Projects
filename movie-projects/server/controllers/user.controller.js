@@ -47,6 +47,8 @@ const userLogin = async (req, res) => {
                         res.cookie("AccessToken", token).status(200).json({ message: "Login Successfully", userData: user, token })
                     }
                 })
+            } else {
+                return res.status(401).send({ message: "Password is incorrect." })
             }
         })
     } catch (error) {

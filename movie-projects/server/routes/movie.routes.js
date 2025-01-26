@@ -7,7 +7,7 @@ const movieRoutes = express.Router()
 movieRoutes.post("/createmovie", isAuth, upload.single('image'), createMovie)
 movieRoutes.get("/allmovies/:userId", isAuth, getAllMovies)
 movieRoutes.get("/singlemovie/:movieId", isAuth, getSingleMovie)
-movieRoutes.put("/updatemovie/:movieId", isAuth, updateMovie)
+movieRoutes.put("/updatemovie/:movieId", isAuth, upload.single('image'), updateMovie)
 movieRoutes.delete("/deletemovie/:movieId", isAuth, deleteMovie)
 
 module.exports = movieRoutes;
