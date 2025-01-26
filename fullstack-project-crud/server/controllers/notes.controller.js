@@ -158,4 +158,4 @@ const deleteNotesbyAdmin = async (req, res) => {
         res.status(400).json({ message: error })
     }
 }
-module.exports = { notesCreate, notesDelete, getAllNotes, getSingleNote, updateNotes, getAllNotesByAdmin, deleteNotesbyAdmin, updateNotebyAdmin,getSingleNotebyAdmin }
+module.exports = { notesCreate, notesDelete, getAllNotes, getSingleNote, updateNotes, getAllNotesByAdmin, deleteNotesbyAdmin, updateNotebyAdmin, getSingleNotebyAdmin }

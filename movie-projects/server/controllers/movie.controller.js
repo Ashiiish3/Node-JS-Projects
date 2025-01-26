@@ -6,8 +6,13 @@ const createMovie = async (req, res) => {
         res.status(500).json({ message: "Please fill all fields." })
     }
     try {
-        await movieModel.create({ title, genre, director, releaseYear, description, userId: req.user._id })
-        res.status(200).json({ message: "Movie has been created successfully." })
+        if (req.file) {
+            await movieModel.create({ title, genre, director, releaseYear, description, image: req?.file?.filename, userId: req.user._id, name: req.user.name })
+            res.status(200).json({ message: "Movie has been created successfully." })
+        } else {
+            await movieModel.create({ title, genre, director, releaseYear, description, userId: req.user._id, name: req.user.name })
+            res.status(200).json({ message: "Movie has been created successfully." })
+        }
     } catch (error) {
         res.status(400).json({ message: "error creating movies", error })
     }
@@ -36,7 +41,14 @@ const getSingleMovie = async (req, res) => {
         return res.status(400).json({ message: "movieId is required." })
     }
     try {
-        
+        const movie = await movieModel.findById(movieId)
+        if (!movie) {
+            return res.status(400).json({ message: "Movie is not found." })
+        }
+        if (movie.userId != req.user._id) {
+            return res.status(400).json({ message: "You don't have permission to get this movie." })
+        }
+        res.status(200).json({ movie })
     } catch (error) {
         return res.status(400).json({ message: "error getting a movie", error })
     }
@@ -55,8 +67,13 @@ const updateMovie = async (req, res) => {
         if (movie.userId !== req.user._id) {
             return res.status(400).json({ message: "You don't have permission to get this Movie." })
         }
-        const updatedMovie = await movieModel.findByIdAndUpdate(movieId, { title, genre, director, releaseYear, description }, { new: true })
-        res.status(200).json({ message: "Movie has been updated.", Movie: updatedMovie })
+        if (req.file) {
+            const updatedMovie = await movieModel.findByIdAndUpdate(movieId, { title, genre, director, releaseYear, description, image: req?.file?.filename }, { new: true })
+            res.status(200).json({ message: "Movie has been updated.", Movie: updatedMovie })
+        } else {
+            const updatedMovie = await movieModel.findByIdAndUpdate(movieId, { title, genre, director, releaseYear, description }, { new: true })
+            res.status(200).json({ message: "Movie has been updated.", Movie: updatedMovie })
+        }
     } catch (error) {
         return res.status(400).json({ message: "error while updating movie", error })
     }
