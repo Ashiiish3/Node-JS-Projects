@@ -6,6 +6,7 @@ const movieRoutes = require("./routes/movie.routes")
 require('dotenv').config()
 
 const app = express()
+app.set("view engine", "ejs")
 app.use(express.json())
 app.use(cookieParser())
 app.use(express.static("./uploads"));

@@ -1,6 +1,8 @@
 const userModel = require("../models/user.model")
 const bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
+const sendEmail = require("../utils/email");
+const ejs = require("ejs")
 
 const userRegister = async (req, res) => {
     const { name, email, password } = req.body
@@ -12,15 +14,18 @@ const userRegister = async (req, res) => {
         if (isUserExist) {
             return res.status(400).json({ message: "User is already Exist." })
         }
-        bcrypt.hash(password, 5, async (err, hash) => {
-            if (err) {
-                return res.status(500).json({ message: "error while bcrypting password", err })
-            }
-            await userModel.create({ name, email, password: hash })
-            res.status(200).json({ message: "Account has been created succefully." })
-        })
+        const { OTP, verificationToken } = CreateOTPandToken(req.body)
+        const HTMLTemplate = await ejs.renderFile(__dirname + '/../view/Email.ejs', { OTP, name })
+        const res = await sendEmail(email, HTMLTemplate)
+        // bcrypt.hash(password, 5, async (err, hash) => {
+        //     if (err) {
+        //         return res.status(500).json({ message: "error while bcrypting password", err })
+        //     }
+        //     await userModel.create({ name, email, password: hash })
+        //     res.status(200).json({ message: "Account has been created succefully." })
+        // })
     } catch (error) {
-        return res.status(400).json({ message: "error while register." })
+        return res.status(400).json({ message: "error while register.", error })
     }
 }
 const userLogin = async (req, res) => {
@@ -39,7 +44,7 @@ const userLogin = async (req, res) => {
             }
             if (result) {
                 const { password, ...rest } = user._doc
-                jwt.sign({ userData: rest }, process.env.PRIVATEKEY,{ expiresIn: "1h" }, (err, token) => {
+                jwt.sign({ userData: rest }, process.env.PRIVATEKEY, { expiresIn: "1h" }, (err, token) => {
                     if (err) {
                         res.status(400).json({ message: "error while creating token", err })
                     }
