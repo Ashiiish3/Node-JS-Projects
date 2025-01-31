@@ -3,16 +3,17 @@ require('dotenv').config()
 
 const transporter = nodemailer.createTransport({
     port: 587,
+    service: "gmail",
     auth: {
         user: "Ashiiish777@gmail.com",
         pass: process.env.PASSWORD,
     },
 });
 
-async function sendEmail(EmailId, HTMLTemplate) {
+async function SendEmail(userEmailId, HTMLTemplate) {
     const info = await transporter.sendMail({
         from: 'Ashiiish777@gmail.com',
-        to: EmailId,
+        to: userEmailId,
         subject: "Verificate OTP ✔",
         html: HTMLTemplate,
     });
@@ -20,4 +21,4 @@ async function sendEmail(EmailId, HTMLTemplate) {
     return info
 }
 
-module.exports = sendEmail;
+module.exports = SendEmail;
