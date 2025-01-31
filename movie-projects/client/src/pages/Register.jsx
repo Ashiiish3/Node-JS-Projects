@@ -37,7 +37,7 @@ export default function Register() {
           >
             Register
           </button>
-          <p className='text-center text-[15px] text-gray-300'>Already have an account? <Link to={'/signin'} className='text-[#ACFC03] font-semibold underline'>Login</Link></p>
+          <p className='text-center text-[15px] text-gray-400'>Already have an account? <Link to={'/signin'} className='text-[#ACFC03] font-semibold underline'>Login</Link></p>
         </form>
       </div>
     </div>

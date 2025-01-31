@@ -29,7 +29,7 @@ export default function SignIn() {
           >
             Sign In
           </button>
-          <p className='text-center text-[15px] text-gray-300'>Already have an account? <Link to={'/register'} className='text-[#ACFC03] font-semibold underline'>Register</Link></p>
+          <p className='text-center text-[15px] text-gray-400'>Already have an account? <Link to={'/register'} className='text-[#ACFC03] font-semibold underline'>Register</Link></p>
         </form>
       </div>
     </div>
