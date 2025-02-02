@@ -3,22 +3,29 @@ import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import axios from 'axios'
 import OTPVerification from './OTPVerification'
+import Cookies from 'js-cookie';
 
 export default function Register() {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [showOTPVerify, setShowOTPVerify] = useState(true)
-  const postRegisterInfo = (e) => {
+  const postRegisterInfo = async (e) => {
     e.preventDefault()
     try {
-      // const res = axios.post("http://localhost:4000/auth/register", {name, email, password})
-      // console.log(res)
+      const res = await axios.post("http://localhost:4000/auth/register", { name, email, password }, {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        withCredentials: true
+      })
       toast.success("OTP has been sent to your email. Please check your gmail.", { theme: "dark", autoClose: 3000 })
       setShowOTPVerify(!showOTPVerify)
+      const token = Cookies.get('verificationToken')
+      console.log(token)
     } catch (error) {
       console.log(error)
-      toast.error("Failed to send OTP and try again.", { theme: "dark", autoClose: 3000 })
+      toast.error(error.response.data.message || "Failed to send OTP and try again.", { theme: "dark", autoClose: 3000 })
     }
   }
 

@@ -21,7 +21,7 @@ const userRegister = async (req, res) => {
         const HTMLTemplate = await ejs.renderFile(__dirname + '/../views/Email.ejs', { OTP, name })
         const response = await SendEmail(email, HTMLTemplate)
         if (response) {
-            return res.cookie("verificationToken", verificationToken).status(200).json({ message: "Email has been sent successfully." })
+            return res.cookie("verificationToken", verificationToken).status(200).json({ message: "OTP has been sent successfully." })
         } else {
             return res.status(200).json({ message: "Eamil has not been sent." })
         }
@@ -53,7 +53,7 @@ const verifyOTP = async (req, res) => {
                     return res.status(500).json({ message: "error while bcrypting password", err })
                 }
                 await userModel.create({ ...user, password: hash })
-                res.status(200).json({ message: "Account has been created succefully." })
+                res.status(200).json({ message: "Your account has been created succefully." })
             })
         } else {
             return res.status(400).json({ message: "Token is invalid." })
